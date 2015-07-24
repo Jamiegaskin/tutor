@@ -1,0 +1,31 @@
+var SingleApptMaster = ReactMeteor.createClass({
+  startMeteorSubscriptions: function() {
+    Meteor.subscribe("appts");
+    Meteor.subscribe("rates");
+  },
+  getMeteorState: function() {
+    return {
+      thisAppt: Appts.findOne({_id: this.props.thisId}),
+      baseRate: Rates.findOne({tutor: thisAppt.tutor, client: thisAppt.client}).rate
+    };
+  },
+  render: function() {
+    appt = this.state.thisAppt;
+    return <li key={appt._id}>Tutor: {appt.tutor},
+                              Tutee: {appt.tutee},
+                              Subject: {appt.subject},
+                              Notes: {appt.notes},
+                              Comments: {appt.comments},
+                              Travel: {appt.travel? "Yes":"No"},
+                              AP: {appt.ap? "Yes":"No"},
+                              PhD: {appt.phd? "Yes":"No"},
+                              Base Rate: {this.state.baseRate},
+                              Client Bill: {appt.bill},
+                              Tutor Pay: {appt.tutorPay},
+                              Profit: {appt.bill - appt.tutorPay}
+                              <button onClick={this.props.toggleEditMode}>Edit</button>
+          </li>;
+  }
+});
+
+export default SingleApptMaster;
