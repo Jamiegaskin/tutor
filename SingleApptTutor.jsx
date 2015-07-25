@@ -1,15 +1,15 @@
-var SingleApptTutor = ReactMeteor.createClass({
+SingleApptTutor = ReactMeteor.createClass({
   startMeteorSubscriptions: function() {
     Meteor.subscribe("appts")
   },
   getMeteorState: function() {
     return {
-      thisAppt: Appts.findOne({_id: this.props.thisId}),
+      thisAppt: Appts.findOne({_id: this.props.thisID}),
     };
   },
   render: function() {
-    appt = this.state.thisAppt;
-    return <li key={appt._id}>Tutee: {appt.tutee},
+    var appt = this.state.thisAppt;
+    return <li key={appt._id}>Client: {appt.client},
                               Subject: {appt.subject},
                               Notes: {appt.notes},
                               Comments: {appt.comments},
@@ -17,9 +17,7 @@ var SingleApptTutor = ReactMeteor.createClass({
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
                               Pay: {appt.tutorPay}
-                              <button onClick={this.props.toggleEditMode}>Edit</button>
+                              <button onClick={this.props.enterEditMode}>Edit</button>
           </li>;
   }
 });
-
-export default SingleApptTutor;

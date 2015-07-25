@@ -1,4 +1,4 @@
-var SingleApptMaster = ReactMeteor.createClass({
+SingleApptMaster = ReactMeteor.createClass({
   startMeteorSubscriptions: function() {
     Meteor.subscribe("appts");
     Meteor.subscribe("rates");
@@ -27,5 +27,3 @@ var SingleApptMaster = ReactMeteor.createClass({
           </li>;
   }
 });
-
-export default SingleApptMaster;
