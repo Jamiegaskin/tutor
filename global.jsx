@@ -16,7 +16,6 @@ Global = ReactMeteor.createClass({
   },
   render: function() {
     var editMode = this.state.editMode;
-    console.log(editMode);
     if (editMode) {
       return <SingleApptEdit thisID = {this.state.session.editID} />;
     } else {

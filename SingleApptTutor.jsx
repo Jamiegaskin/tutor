@@ -18,6 +18,7 @@ SingleApptTutor = ReactMeteor.createClass({
     var appt = this.state.thisAppt;
     return <li key={appt._id}>Client: {appt.client},
                               Subject: {appt.subject},
+                              Date: {appt.date},
                               Notes: {appt.notes},
                               Comments: {appt.comments},
                               Travel: {appt.travel? "Yes":"No"},

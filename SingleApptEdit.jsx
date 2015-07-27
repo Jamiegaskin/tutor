@@ -1,30 +1,36 @@
 SingleApptEdit = ReactMeteor.createClass({
 	startMeteorSubscriptions: function() {
-    Meteor.subscribe("appts")
+    Meteor.subscribe("appts");
   },
   getMeteorState: function() {
+    var currentUser = "Jamie Gaskin" // change to get logged in user
     return {
       thisAppt: Appts.findOne({_id: this.props.thisID}),
+      userID: StateVars.findOne({user: currentUser})._id
     };
   },
   editAppt: function() {
-    var client = document.getElementByID("clientEdit").value;
-    var date = document.getElementByID("dateEdit").value;
-    var subject = document.getElementByID("subjectEdit").value;
-    var travel = document.getElementByID("travelEdit").checked;
-    var ap = document.getElementByID("apEdit").checked;
-    var phd = document.getElementByID("phdEdit").checked;
-    var notes = document.getElementByID("notesEdit").value;
-    var comments = document.getElementByID("commentsEdit").value;
-    Appts.update(this.state.thisAppt._id, {client: client, 
+    var client = document.getElementById("clientEdit").value;
+    var date = document.getElementById("dateEdit").value;
+    var subject = document.getElementById("subjectEdit").value;
+    var travel = document.getElementById("travelEdit").checked;
+    var ap = document.getElementById("apEdit").checked;
+    var phd = document.getElementById("phdEdit").checked;
+    var notes = document.getElementById("notesEdit").value;
+    var comments = document.getElementById("commentsEdit").value;
+    Appts.update(this.state.thisAppt._id, {$set: {
+                                          client: client, 
                                           date: date, 
                                           subject: subject, 
                                           travel: travel, 
                                           ap: ap, 
                                           phd: phd, 
                                           notes: notes, 
-                                          comments: comments});
-    this.props.exitEditMode();
+                                          comments: comments}});
+    this.exitEditMode();
+  },
+  exitEditMode: function() {
+    StateVars.update(this.state.userID, {$set: {editMode: false}});
   },
   render: function() {
     appt = this.state.thisAppt;
@@ -39,7 +45,7 @@ SingleApptEdit = ReactMeteor.createClass({
         Notes <input id='notesEdit' type="text" value = {appt.notes}/>,
         Comments <input id='commentsEdit' type="text" value = {appt.comments}/>
         <button onClick={this.editAppt}>submit</button>
-        <button onClick={this.props.exitEditMode}>cancel</button>
+        <button onClick={this.exitEditMode}>cancel</button>
       </div>);
   }
 });
