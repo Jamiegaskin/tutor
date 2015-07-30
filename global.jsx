@@ -1,32 +1,25 @@
-Global = ReactMeteor.createClass({
-	startMeteorSubscriptions: function() {
-    Meteor.subscribe("appts");
-    Meteor.subscribe("rates");
-    Meteor.subscribe("adjustments");
-    Meteor.subscribe("pays")
-    Meteor.subscribe("stateVars");
-  },
-  getMeteorState: function() {
-    var currentUser = "Jamie Gaskin"; // change later to get logged in user
-    return {
-      appts: Appts.find().fetch(),
-      session: StateVars.findOne({user: currentUser}),
-      editMode: StateVars.findOne({user: currentUser}).editMode
-    };
+Global = React.createClass({
+  mixins: [ReactMeteorData],
+  getMeteorData: function() {
+    return {user: Meteor.user()};
   },
   render: function() {
-    var editMode = this.state.editMode;
-    if (editMode) {
-      return <SingleApptEdit thisID = {this.state.session.editID} />;
-    } else {
+    if (!this.data.user) { // show login if no user
+      return <Login />; 
+    }
+    else { // if user logged in
+      if (Meteor.user().profile.master) { // enter master view
+        view = <MasterView />;
+      }
+      else { // enter tutor view
+        view = <TutorView />;
+      }
       return (
         <div>
-          It is working!
-          {this.state.appts.map(function(appt){
-            return <SingleApptTutor thisID = {appt._id} />;
-          })}
+          <MonitorState />
+          {view}
         </div>
-        );
+      );
     }
   }
 });

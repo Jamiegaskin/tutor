@@ -1,21 +1,16 @@
-SingleApptTutor = ReactMeteor.createClass({
-  startMeteorSubscriptions: function() {
-    Meteor.subscribe("appts");
-    Meteor.subscribe("rates");
-    Meteor.subscribe("adjustments");
-    Meteor.subscribe("stateVars");
-  },
-  getMeteorState: function() {
+SingleApptTutor = React.createClass({
+  mixins: [ReactMeteorData],
+  getMeteorData: function() {
     return {
       thisAppt: Appts.findOne({_id: this.props.thisID}),
     };
   },
   enterEditMode: function() {
-    var currentUser = StateVars.findOne({user: "Jamie Gaskin"})._id; //update later to get logged in user
-    StateVars.update(currentUser, {$set:{editMode: true, editID: this.props.thisID}});
+    var currentUserID = StateVars.findOne({user: Meteor.user().username})._id; //update later to get logged in user
+    StateVars.update(currentUserID, {$set:{mode: "edit", editID: this.props.thisID}});
   },
   render: function() {
-    var appt = this.state.thisAppt;
+    var appt = this.data.thisAppt;
     return <li key={appt._id}>Client: {appt.client},
                               Subject: {appt.subject},
                               Date: {appt.date},

@@ -1,36 +1,26 @@
-SingleApptMaster = ReactMeteor.createClass({
-  startMeteorSubscriptions: function() {
-    Meteor.subscribe("appts");
-    Meteor.subscribe("rates");
-    Meteor.subscribe("adjustments");
-    Meteor.subscribe("pays")
-    Meteor.subscribe("stateVars");
-  },
-  getMeteorState: function() {
+SingleApptMaster = React.createClass({
+  mixins: [ReactMeteorData],
+  getMeteorData: function() {
     return {
       thisAppt: Appts.findOne({_id: this.props.thisID}),
-      baseRate: Rates.findOne({tutor: thisAppt.tutor, client: thisAppt.client}).rate
     };
   },
   enterEditMode: function() {
-    var currentUser = "Jamie Gaskin"; //update later to get logged in user
-    stateVars.update({name: currentUser}, {editMode: true, editID: this.props.thisID})
-
+    var currentUserID = StateVars.findOne({user: Meteor.user().username})._id; //update later to get logged in user
+    StateVars.update(currentUserID, {$set:{mode: "edit", editID: this.props.thisID}});
   },
   render: function() {
-    appt = this.state.thisAppt;
+    var appt = this.data.thisAppt;
     return <li key={appt._id}>Tutor: {appt.tutor},
-                              Tutee: {appt.tutee},
+                              Client: {appt.client},
                               Subject: {appt.subject},
+                              Date: {appt.date},
                               Notes: {appt.notes},
                               Comments: {appt.comments},
                               Travel: {appt.travel? "Yes":"No"},
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
-                              Base Rate: {this.state.baseRate},
-                              Client Bill: {this.state.baseRate + (appt.phd? 10:0)},
-                              Tutor Pay: {appt.tutorPay},
-                              Profit: {appt.bill - appt.tutorPay}
+                              Pay: {appt.pay}
                               <button onClick={this.enterEditMode}>Edit</button>
           </li>;
   }

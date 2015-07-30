@@ -1,9 +1,8 @@
-MonitorState = ReactMeteor.createClass({
-	startMeteorSubscriptions: function() {
-    Meteor.subscribe("stateVars");
-  },
-  getMeteorState: function() {
-    var currentUser = "Jamie Gaskin"; // change later to get logged in user
+// shows various state variables for debugging
+MonitorState = React.createClass({
+  mixins: [ReactMeteorData], 
+  getMeteorData: function() {
+    var currentUser = "Jamie Gaskin"; // change later to get logged in user 
     return {
       session: StateVars.findOne({user: currentUser})
     };
@@ -11,7 +10,7 @@ MonitorState = ReactMeteor.createClass({
   render: function() {
     return (
       <div>
-        User: {this.state.session.user}, EditMode: {this.state.session.editMode? "yes":"no"}, EditID: {this.state.session.editID}
+        User: {this.data.session.user}, mode: {this.data.session.mode}, EditID: {this.data.session.editID}, Master: {Meteor.user().profile.master? "Yes":"No"}
       </div>
       );
   }
