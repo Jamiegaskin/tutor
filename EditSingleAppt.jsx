@@ -1,4 +1,4 @@
-SingleApptEdit = React.createClass({
+EditSingleAppt = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData: function() {
     var currentUser = "Jamie Gaskin" // change to get logged in user
@@ -26,7 +26,7 @@ SingleApptEdit = React.createClass({
   render: function() {
     var appt = this.data.thisAppt;
     return (
-      <div>
+      <form>
         Client <input id="clientEdit" type="text" defaultValue={appt.client} />,
         Date <input id="dateEdit" type="date" defaultValue={appt.date} />,
         Subject <input id="subjectEdit" type="text" defaultValue={appt.subject} />,
@@ -37,6 +37,6 @@ SingleApptEdit = React.createClass({
         Comments <input id="commentsEdit" type="text" defaultValue={appt.comments} />
         <button onClick={this.editAppt}>submit</button>
         <button onClick={this.exitEditMode}>cancel</button>
-      </div>);
+      </form>);
   }
 });

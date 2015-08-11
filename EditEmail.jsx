@@ -1,27 +1,37 @@
-EditEmail = React.createClass({
+EditPass = React.createClass({
   mixins: [ReactMeteorData],
   getInitialState: function() {
-    return {fail: false};
+    return {
+      fail: false,
+      error: "",
+      };
   },
   getMeteorData: function() {
     var currentUser = Meteor.user().username;
     return {
       userID: StateVars.findOne({user: currentUser})._id,
-      email: Meteor.user().emails[0]
     };
   },
-  exitEditEmail: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "apptView"}});
+  exit: function() {
+    Meteor.call("setMode", "apptView");
   },
-  updateEmail: function() {
+  updatePass: function() {
     var newEmail = document.getElementById("emailEdit").value;
     var newEmailConfirm = document.getElementById("emailEditConfirm").value;
+    if (!newEmail) {
+      return;
+    }
     if(newEmail != newEmailConfirm) {
       this.setState({fail: true});
-      return
+      return;
     }
-    Meteor.users.update(Meteor.userId(), {$set: {email: newEmail}});
-    this.exitEditEmail();
+    Meteor.call("updateEmail", newEmail);
+    this.exit();
+  },
+  emailCallback: function(error) {
+    if (error) {
+      this.setState({fail: true, error: error});
+    }
   },
   render: function() {
     var failAlert = this.state.fail? <p>Emails must match</p>:<p/>
@@ -32,8 +42,8 @@ EditEmail = React.createClass({
         {failAlert}
         <p><input id="emailEdit" type="text" placeholder="New email" /></p>
         <p><input id="emailEditConfirm" type="text" placeholder="Confirm new email" /></p>
-        <p><button onClick={this.exitEditEmail}>cancel</button>
-          <button onClick={this.updateEmail}>update</button></p>
+        <p><button onClick={this.exit}>cancel</button>
+          <button onClick={this.updatePass}>update</button></p>
       </div>
       );
   }

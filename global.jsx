@@ -9,10 +9,10 @@ Global = React.createClass({
     }
     else { // if user logged in
       if (Meteor.user().profile.master) { // enter master view
-        view = <MasterView />;
+        view = <ViewMaster />;
       }
       else { // enter tutor view
-        view = <TutorView />;
+        view = <ViewTutor />;
       }
       return (
         <div>

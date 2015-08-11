@@ -2,16 +2,21 @@
 MonitorState = React.createClass({
   mixins: [ReactMeteorData], 
   getMeteorData: function() {
-    var currentUser = "Jamie Gaskin"; // change later to get logged in user 
+    var currentUser = Meteor.user().username;
     return {
       session: StateVars.findOne({user: currentUser})
     };
   },
   render: function() {
-    return (
-      <div>
-        User: {this.data.session.user}, mode: {this.data.session.mode}, EditID: {this.data.session.editID}, Master: {Meteor.user().profile.master? "Yes":"No"}
-      </div>
-      );
+    if (this.data.session) {
+      return (
+        <div>
+          User: {this.data.session.user}, Mode: {this.data.session.mode}, EditID: {this.data.session.editID}, Master: {Meteor.user().profile.master? "Yes":"No"}
+        </div>
+        );
+    }
+    else {
+      return <div>no user</div>;
+    }
   }
 });

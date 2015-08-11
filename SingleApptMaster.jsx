@@ -6,8 +6,8 @@ SingleApptMaster = React.createClass({
     };
   },
   enterEditMode: function() {
-    var currentUserID = StateVars.findOne({user: Meteor.user().username})._id; //update later to get logged in user
-    StateVars.update(currentUserID, {$set:{mode: "edit", editID: this.props.thisID}});
+    var currentUserID = StateVars.findOne({user: Meteor.user().username})._id;
+    StateVars.update(currentUserID, {$set:{mode: "editAppt", editID: this.props.thisID}});
   },
   render: function() {
     var appt = this.data.thisAppt;
@@ -20,7 +20,8 @@ SingleApptMaster = React.createClass({
                               Travel: {appt.travel? "Yes":"No"},
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
-                              Pay: {appt.pay}
+                              Bill: ${appt.bill},
+                              Pay: ${appt.pay}
                               <button onClick={this.enterEditMode}>Edit</button>
           </li>;
   }

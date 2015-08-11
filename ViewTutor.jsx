@@ -1,7 +1,7 @@
-MasterView = React.createClass({
+ViewTutor = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData: function() {
-    var currentUser = "Jamie Gaskin"; // change later to get logged in user
+    var currentUser = Meteor.user().username;
     return {
       appts: Appts.find().fetch(),
       session: StateVars.findOne({user: currentUser}),
@@ -11,27 +11,24 @@ MasterView = React.createClass({
     var mode = this.data.session.mode;
     var body;
     if (mode === "edit") {
-      body = <SingleApptEditMaster thisID = {this.data.session.editID} />;
+      body = <SingleApptEdit thisID = {this.data.session.editID} />;
     }
     else if (mode === "editPass") {
       body = <EditPass />;
-    }
-    else if (mode === "editEmail") {
-      body = <EditEmail />;
     }
     else if (mode === "apptView") {
       body = (
         <div>
           {this.data.appts.map(function(appt){
-            return <SingleApptMaster thisID = {appt._id} />;
+            return <SingleApptTutor thisID = {appt._id} />;
           })}
         </div>
         );
     }
     return (
       <div>
-        <RouterMaster />
         {body}
+        <button onClick={Meteor.logout}>logout</button>
       </div>
       )
   }
