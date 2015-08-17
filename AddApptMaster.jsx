@@ -1,25 +1,5 @@
 AddApptMaster = React.createClass({
   mixins: [ReactMeteorData],
-  getMeteorData: function() {
-    var currentUser = Meteor.user().username;
-    var students = [];
-    var clients = Clients.find();
-    var thisClient = Clients.findOne({students: this.state.student});
-    var rate = thisClient? Rates.findOne({tutor: this.state.tutor, parents: thisClient.parents}):undefined;
-    console.log(rate);
-    clients.map(function(client) {
-      students = students.concat(client.students);
-    })
-    return {
-      adjustments: Adjustments.findOne(),
-      students: students,
-      clients: clients,
-      users: Meteor.users.find(),
-      pay: Meteor.users.findOne({username: this.state.tutor}).profile.pay,
-      billBase: rate? rate.rate:0,
-      userID: StateVars.findOne({user: currentUser})._id,
-    };
-  },
   getInitialState: function() {
     return {
       tutor: (Meteor.user().profile.status === "Admin"? "Jenn Gaskin":Meteor.user().username),
@@ -29,6 +9,27 @@ AddApptMaster = React.createClass({
       phd: false,
       travel: false
     }
+  },
+  getMeteorData: function() {
+    var currentUser = Meteor.user().username;
+    var students = [];
+    var tutor = this.state.tutor;
+    var clients = Clients.find();
+    var thisClient = Clients.findOne({students: this.state.student});
+    var rate = thisClient? Rates.findOne({tutor: tutor, parents: thisClient.parents}):undefined;
+    clients.map(function(client) {
+      if (Rates.findOne({tutor: tutor, parents: client.parents})) {
+        students = students.concat(client.students);
+      }
+    })
+    return {
+      adjustments: Adjustments.findOne(),
+      students: students,
+      clients: clients,
+      users: Meteor.users.find(),
+      pay: Meteor.users.findOne({username: tutor}).profile.pay,
+      billBase: rate? rate.rate:0,
+    };
   },
   enterAppt: function() {
     tutor = document.getElementById("tutorEdit").value;
@@ -45,7 +46,7 @@ AddApptMaster = React.createClass({
     this.exit();
   },
   exit: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "apptView"}});
+    Meteor.call("setMode", "apptView");
   },
   getToday: function() {
     var today = new Date();

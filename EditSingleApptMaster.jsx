@@ -13,7 +13,6 @@ EditSingleApptMaster = React.createClass({
       students: students,
       thisAppt: Appts.findOne({_id: editID}),
       editID: editID,
-      userID: StateVars.findOne({user: currentUser})._id,
     };
   },
   editAppt: function() {
@@ -30,10 +29,16 @@ EditSingleApptMaster = React.createClass({
     notes = document.getElementById("notesEdit").value;
     comments = document.getElementById("commentsEdit").value;
     Meteor.call("editAppt", this.data.editID, tutor, client, date, subject, hours, travel, ap, phd, bill, pay, notes, comments);
-    this.exitEditMode();
+    this.exit();
   },
-  exitEditMode: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "apptView"}});
+  exit: function() {
+    Meteor.call("setMode", "apptView");
+  },
+  deleteAppt: function() {
+    if (window.confirm("Are you sure you want to delete this appointment?")) { 
+      Meteor.call("deleteAppt", this.data.editID);
+      this.exit();
+    }
   },
   render: function() {
     var appt = this.data.thisAppt;
@@ -48,7 +53,7 @@ EditSingleApptMaster = React.createClass({
             })}
           </select>
         </p>
-        <p><input id="clientEdit" list="studentList" defaultValue={appt.client}>
+        <p><input id="clientEdit" list="studentList" defaultValue={appt.student}>
             <datalist id="studentList">
               {this.data.students.map(function(student) {
                 return <option value={student}/>
@@ -74,8 +79,9 @@ EditSingleApptMaster = React.createClass({
         <p>Pay: $<input id="payEdit" type="text" defaultValue={appt.pay} /></p>
         <p>Notes: <br/><textarea id="notesEdit" defaultValue={appt.notes} /></p>
         <p>Comments: <br/><textarea id="commentsEdit" type="text" defaultValue={appt.comments} /></p>
-        <p><button onClick={this.editAppt}>submit</button>
-          <button onClick={this.exitEditMode}>cancel</button></p>
+        <p><button onClick={this.exit}>Cancel</button>
+          <button onClick={this.deleteAppt}>Delete</button>
+          <button onClick={this.editAppt}>Submit</button></p>
       </div>);
   }
 });

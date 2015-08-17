@@ -29,6 +29,12 @@ EditClient = React.createClass({
   enterPayHistory: function() {
     Meteor.call("setMode", "editPayHistory");
   },
+  deleteClient: function() {
+    if (window.confirm("Are you sure you want to delete this client?")) { 
+      Meteor.call("deleteClient", this.data.thisClient._id);
+      this.exit();
+    }
+  },
   render: function() {
     var client = this.data.thisClient;
     return (
@@ -38,16 +44,17 @@ EditClient = React.createClass({
         <p>Emails: <input id="emailEdit" type="text" defaultValue={client.emails.join(", ")} /></p>
         <p>House # and Street: <input id="address1Edit" type="text" defaultValue={client.address1} /></p>
         <p>City and State: <input id="address2Edit" type="text" defaultValue={client.address2} /></p>
-        <p>Home Phone: <input id="home" type="text" defaultValue={client.phones.home}/></p>
-        <p>Mother's Cell: <input id="motherCell" type="text" defaultValue={client.phones.motherCell} /></p>
-        <p>Father's Cell: <input id="fatherCell" type="text" defaultValue={client.phones.fatherCell}/></p>
-        <p>Student's Cell: <input id="studentCell" type="text" defaultValue={client.phones.studentCell}/></p>
+        <p>Home Phone: <input id="home" type="text" defaultValue={client.phoneNums.home}/></p>
+        <p>Mother's Cell: <input id="motherCell" type="text" defaultValue={client.phoneNums.motherCell} /></p>
+        <p>Father's Cell: <input id="fatherCell" type="text" defaultValue={client.phoneNums.fatherCell}/></p>
+        <p>Student's Cell: <input id="studentCell" type="text" defaultValue={client.phoneNums.studentCell.join(", ")}/></p>
         <p>You should not have to edit these, unless something went wrong.</p>
         <p>Previous Balance: $<input id="previousBalanceEdit" type="text" defaultValue={client.previousBalance} /></p>
         <p>Current Balance: $<input id="balanceEdit" type="text" defaultValue={client.balance} /></p>
-        <p><button onClick={this.exit}>cancel</button>
+        <p><button onClick={this.exit}>Cancel</button>
+          <button onClick={this.deleteClient}>Remove Client</button>
           <button onClick={this.enterPayHistory}>Edit Pay History</button>
-          <button onClick={this.editClient}>submit</button></p>
+          <button onClick={this.editClient}>Submit</button></p>
       </div>);
     }
 });

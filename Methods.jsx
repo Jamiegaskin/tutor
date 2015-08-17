@@ -2,32 +2,67 @@ Meteor.methods({
 	updateEmail: function(newEmail) {
 		Meteor.users.update(Meteor.userId(), {$set:{"emails":[{address:newEmail}]}});
 	},
+
+	// Tutor methods
 	addTutor: function(name, email, status, master, pay, ap, phd, travel) {
 		Accounts.createUser({username: name, email: email, password: "pass", profile:{status: status, master: master, pay: {base: pay, ap: ap, phd: phd, travel: travel}}});
 		StateVars.insert({user: name, mode: "addAppt", editID: ""});
 	},
 	editTutor: function(id, name, email, status, master, pay, ap, phd, travel) {
-		Meteor.users.update({_id: id}, {$set: {username: name, emails:[{address:email}], profile:{status: status, master: master, pay: {base: pay, ap: ap, phd: phd, travel: travel}}}});
+		if (Meteor.user().profile.master) {
+			Meteor.users.update({_id: id}, {$set: {username: name, emails:[{address:email}], profile:{status: status, master: master, pay: {base: pay, ap: ap, phd: phd, travel: travel}}}});
+		}
 	},
-	addAppt: function(tutor, client, date, subject, hours, travel, ap, phd, notes, comments) {
+	deleteTutor: function(id) {
+		Meteor.users.remove({_id: id});
+	},
+
+	// Appointment methods
+	addAppt: function(tutor, student, date, subject, hours, travel, ap, phd, notes, comments) {
 		var adjustments = Adjustments.findOne();
 		var payInfo = Meteor.users.findOne({username: tutor}).profile.pay;
-		var billBase = Rates.findOne({tutor: tutor, client: client}).rate;
+		var parents = Clients.findOne({students: student}).parents;
+		var billBase = Rates.findOne({tutor: tutor, parents: parents}).rate;
 		var bill = billBase*hours + (ap? adjustments.ap:0) + (travel? adjustments.travel:0);
 		var pay = payInfo.base*hours + (ap? payInfo.ap:0) + (phd? payInfo.phd:0) + (travel? payInfo.travel:0);
-		Appts.insert({tutor: tutor, client: client, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, adjustments: adjustments, payInfo: payInfo});
+		Appts.insert({tutor: tutor, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, adjustments: adjustments, payInfo: payInfo, baseRate: billBase});
 	},
-	editAppt: function(id, tutor, client, date, subject, hours, travel, ap, phd, bill, pay, notes, comments) {
-		Appts.update({_id: id}, {$set: {tutor: tutor, client: client, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay}});
+	editAppt: function(id, tutor, student, date, subject, hours, travel, ap, phd, bill, pay, notes, comments) {
+		Appts.update({_id: id}, {$set: {tutor: tutor, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay}});
 	},
+	editApptTutor: function(id, tutor, student, date, subject, hours, travel, ap, phd, notes, comments) {
+		var appt = Appts.findOne({_id: id});
+		var adjustments = appt.adjustments;
+		var payInfo = appt.payInfo;
+		var billBase = appt.baseRate;
+		var bill = billBase*hours + (ap? adjustments.ap:0) + (travel? adjustments.travel:0);
+		var pay = payInfo.base*hours + (ap? payInfo.ap:0) + (phd? payInfo.phd:0) + (travel? payInfo.travel:0);
+		Appts.update({_id: id}, {$set: {tutor: tutor, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay}});
+	},
+	deleteAppt: function(id) {
+		Appts.remove({_id: id});
+	},
+
+	// Rate methods
 	addRate: function(tutor, parents, rate) {
 		Rates.insert({tutor: tutor, parents: parents, rate: rate});
 	},
 	editRate: function(id, tutor, parents, rate) {
 		Rates.update({_id: id}, {tutor: tutor, parents: parents, rate: rate});
 	},
+	deleteRate: function(id) {
+		Rates.remove({_id: id});
+	},
+
+	// Client methods
 	addClient: function(parents, students, emails, address1, address2, home, motherCell, fatherCell, studentCell) {
-		Clients.insert({parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell}, previousBalance: 0, balance: 0, payHistory: []});
+		Clients.insert({parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: 0, balance: 0, payHistory: []});
+	},
+	editClient: function(id, parents, students, emails, address1, home, motherCell, fatherCell, studentCell, address2, previousBalance, balance) {
+		Clients.update({_id: id}, {$set:{parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: previousBalance, balance: balance}})
+	},
+	deleteClient: function(id) {
+		Clients.remove({_id: id});
 	},
 	addPayment: function(client, checkNum, amount, date) {
 		var payHistory = Clients.findOne({parents: client}).payHistory;
@@ -37,13 +72,64 @@ Meteor.methods({
 	updatePayHistory: function(client, paymentsArray) {
 		Clients.update({parents: client}, {$set: {payHistory: paymentsArray}})
 	},
-	editClient: function(id, parents, students, emails, address1, home, motherCell, fatherCell, studentCell, address2, previousBalance, balance) {
-		Clients.update({_id: id}, {$set:{parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell}, previousBalance: previousBalance, balance: balance}})
-	},
+
+	// Navigation methods
 	setMode: function(mode) {
 		StateVars.update({user: Meteor.user().username}, {$set: {mode: mode}});
 	},
 	setModeAndEditID: function(mode, editID) {
 		StateVars.update({user: Meteor.user().username}, {$set: {mode: mode, editID: editID}});
+	},
+
+	// Billing adjustments
+	editAdjustments: function(ap, travel) {
+		Adjustments.update({}, {ap: ap, travel: travel});
+	},
+
+	// Cycle methods
+	addCycle: function(name, start, end) {
+		Cycles.insert({name: name, start: start, end: end});
+	},
+	updateCycle: function(id, name, start, end) {
+		Cycles.update({_id: id}, {name: name, start: start, end: end});
+	},
+	deleteCycle: function(id) {
+		Cycles.remove({_id: id});
+	},
+
+	// Tutor Pay Extra Methods
+	addPayExtra: function(tutorID, cycleID, occasion, amount) {
+		PayExtras.insert({tutorID: tutorID, cycleID: cycleID, occasion: occasion, amount: amount});
+	},
+	editPayExtra: function(id, tutorID, cycleID, occasion, amount) {
+
+	},
+	deletePayExtra: function(id) {
+		PayExtras.remove({_id: id});
+	},
+
+	// Client Bill Extra Methods
+	addBillExtra: function(clientID, cycleID, occasion, amount) {
+		BillExtras.insert({clientID: clientID, cycleID: cycleID, occasion: occasion, amount: amount});
+	},
+
+	// Generate (or regenerate) bills and pay stubs
+	generateBill: function(client, cycle) {
+		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
+		var extras = BillExtras.find({clientID; client._id, cycleID: cycle._id}).fetch()
+		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
+			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras})
+		} else {
+			Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras})
+		}
+	},
+	generatePayStub: function(tutor, cycle) {
+		var apptList = Appts.find({tutor: tutor, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
+		var extras = PayExtras.find({tutorID: tutor._id, cycleID: cycle._id}).fetch()
+		if (PayStubs.findOne({tutor: tutor, "cycle._id": cycle._id})) {
+			PayStubs.update({tutor: tutor, "cycle._id": cycle._id}, {tutor: tutor, cycle: cycle, apptList: apptList, extras: extras})
+		} else {
+			PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras})
+		}
 	}
 })

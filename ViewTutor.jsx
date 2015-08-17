@@ -3,32 +3,28 @@ ViewTutor = React.createClass({
   getMeteorData: function() {
     var currentUser = Meteor.user().username;
     return {
-      appts: Appts.find().fetch(),
       session: StateVars.findOne({user: currentUser}),
     };
   },
   render: function() {
     var mode = this.data.session.mode;
     var body;
-    if (mode === "edit") {
-      body = <SingleApptEdit thisID = {this.data.session.editID} />;
+    if (mode === "editAppt") {
+      body = <EditSingleAppt />;
     }
     else if (mode === "editPass") {
       body = <EditPass />;
     }
     else if (mode === "apptView") {
-      body = (
-        <div>
-          {this.data.appts.map(function(appt){
-            return <SingleApptTutor thisID = {appt._id} />;
-          })}
-        </div>
-        );
+      body = <ApptListTutor />;
+    }
+    else if (mode === "addAppt") {
+      body = <AddApptTutor />;
     }
     return (
       <div>
+        <RouterTutor />
         {body}
-        <button onClick={Meteor.logout}>logout</button>
       </div>
       )
   }

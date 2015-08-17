@@ -27,7 +27,7 @@ AddTutor = React.createClass({
     this.exit();
   },
   exit: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "apptView"}});
+    Meteor.call("setMode", "apptView");
   },
   render: function() {
     var failed = this.state.failed? <p>{this.state.message}</p>:<p></p>;

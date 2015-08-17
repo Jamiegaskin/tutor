@@ -16,7 +16,7 @@ AddPayment = React.createClass({
     this.exit();
   },
   exit: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "manageClients"}});
+    Meteor.call("setMode", "manageClients");
   },
   getToday: function() {
     var today = new Date();

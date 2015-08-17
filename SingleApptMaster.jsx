@@ -6,13 +6,12 @@ SingleApptMaster = React.createClass({
     };
   },
   enterEditMode: function() {
-    var currentUserID = StateVars.findOne({user: Meteor.user().username})._id;
-    StateVars.update(currentUserID, {$set:{mode: "editAppt", editID: this.props.thisID}});
+    Meteor.call("setModeAndEditID", "editAppt", this.props.thisID);
   },
   render: function() {
     var appt = this.data.thisAppt;
     return <li key={appt._id}>Tutor: {appt.tutor},
-                              Client: {appt.client},
+                              Student: {appt.student},
                               Subject: {appt.subject},
                               Date: {appt.date},
                               Notes: {appt.notes},

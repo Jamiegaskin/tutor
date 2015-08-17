@@ -3,8 +3,8 @@ Login = React.createClass({
     return {failed: false};
   },
   login: function() {
-    var username = document.getElementById("username").value||"Jamie Gaskin";
-    var password = document.getElementById("password").value||"Musicislife7";
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
     Meteor.loginWithPassword(username, password, this.failedLogin);
   },
   failedLogin: function(error) {

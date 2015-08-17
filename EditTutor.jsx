@@ -25,6 +25,12 @@ EditTutor = React.createClass({
   exit: function() {
     StateVars.update(this.data.userID, {$set: {mode: "manageTutors"}});
   },
+  deleteTutor: function() {
+    if (window.confirm("Are you sure you want to delete this tutor?")) { 
+      Meteor.call("deleteTutor", this.data.editID);
+      this.exit();
+    }
+  },
   render: function() {
     var tutor = this.data.tutor;
     return (
@@ -44,6 +50,7 @@ EditTutor = React.createClass({
         <p>Extra for Travel: $<input type="text" id="travel" defaultValue={tutor.profile.pay.travel}  /></p>
         <p>Master Account <input type="checkbox" id="master" checked={tutor.profile.master} /></p>
         <p><button onClick={this.exit}>Cancel</button>
+          <button onClick={this.deleteTutor}>Delete</button>
           <button onClick={this.editTutor}>Submit</button></p>
       </div>);
   }

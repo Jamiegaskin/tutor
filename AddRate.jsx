@@ -16,7 +16,7 @@ AddRate = React.createClass({
     this.exit();
   },
   exit: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "manageRates"}});
+    Meteor.call("setMode", "manageRates");
   },
 
   render: function() {

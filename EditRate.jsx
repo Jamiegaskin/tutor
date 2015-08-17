@@ -17,6 +17,12 @@ EditRate = React.createClass({
     Meteor.call("editRate", this.data.thisRate._id, tutor, parent, rate);
     this.exit();
   },
+  deleteRate: function() {
+    if (window.confirm("Are you sure you want to delete this rate?")) { 
+      Meteor.call("deleteRate", this.data.thisRate._id);
+      this.exit();
+    }
+  },
   exit: function() {
     StateVars.update(this.data.userID, {$set: {mode: "manageRates"}});
   },
@@ -43,8 +49,9 @@ EditRate = React.createClass({
           </input>
         </p>
         <p>Rate: $<input id="rateEdit" type="text" defaultValue={rate.rate} /></p>
-        <p><button onClick={this.exit}>cancel</button>
-          <button onClick={this.editRate}>submit</button></p>
+        <p><button onClick={this.exit}>Cancel</button>
+           <button onClick={this.deleteRate}>Delete</button>
+           <button onClick={this.editRate}>Submit</button></p>
 
       </div>);
   }

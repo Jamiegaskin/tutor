@@ -5,7 +5,7 @@ ApptListMaster = React.createClass({
   },
   getMeteorData: function() {
     return {
-      appts: Appts.find(),
+      appts: Appts.find({}, {sort:{date: -1}}),
     };
   },
   render: function() {

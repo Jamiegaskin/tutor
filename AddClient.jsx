@@ -20,15 +20,15 @@ AddClient = React.createClass({
     this.exit();
   },
   exit: function() {
-    StateVars.update(this.data.userID, {$set: {mode: "manageClients"}});
+    Meteor.call("setMode", "manageClients");
   },
   render: function() {
     return (
       <div>
-        <p><input id="parentEdit" type="text" placeholder="Parent Name(s)"/></p>
+        <p><input id="parentEdit" type="text" placeholder="Parent Names"/></p>
         <p><input id="studentEdit" type="text" placeholder="Students"/></p>
         <p>Enter full names and seperate multiple students with commas. For example: Peter Gold, Madi Gold, Alex Gold</p>
-        <p><input id="emailEdit" type="text" placeholder="Email(s)"/></p>
+        <p><input id="emailEdit" type="text" placeholder="Emails"/></p>
         <p>Seperate multiple emails with commas.</p>
         <p><input id="address1Edit" type="text" placeholder="House # and Street"/></p>
         <p><input id="address2Edit" type="text" placeholder="City and State"/></p>

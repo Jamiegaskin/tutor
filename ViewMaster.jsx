@@ -3,14 +3,10 @@ ViewMaster = React.createClass({
   getMeteorData: function() {
     var currentUser = Meteor.user().username;
     return {
-      appts: Appts.find().fetch(),
       session: StateVars.findOne({user: currentUser}),
     };
   },
   render: function() {
-    if (!this.data.session) {
-      return <div>Loading...</div>;
-    }
     var mode = this.data.session.mode;
     var body;
     if (mode === "editAppt") {
@@ -60,6 +56,24 @@ ViewMaster = React.createClass({
     }
     else if (mode === "manageRates") {
       body = <RatesList />;
+    }
+    else if (mode === "manageBillAdjustments") {
+      body = <AdjustmentsView />;
+    }
+    else if (mode === "addCycle") {
+      body = <AddCycle />;
+    }
+    else if (mode === "manageCycles") {
+      body = <CyclesList />;
+    }
+    else if (mode === "addPayExtra") {
+      body = <AddPayExtra />;
+    }
+    else if (mode === "managePayExtra") {
+      body = <PayExtraList />;
+    }
+    else if (mode === "addBillExtra") {
+      body = <AddBillExtra />;
     }
     return (
       <div>

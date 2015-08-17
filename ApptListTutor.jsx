@@ -1,21 +1,20 @@
 ApptListTutor = React.createClass({
   mixins: [ReactMeteorData],
-  getInitialState: function() {
-  	return {sort: "date"} 
-  },
   getMeteorData: function() {
-    var currentUser = "Jamie Gaskin"; // change later to get logged in user
     return {
-      appts: Appts.find({tutor: currentUser}),
+      appts: Appts.find({tutor: Meteor.user().username}, {sort:{date: -1}}),
     };
   },
   render: function() {
-	  return (
-	    <div>
-	      {this.data.appts.map(function(appt){
-	        return <SingleApptTutor thisID = {appt._id} />;
-	      })}
-	    </div>
-	    );
-	}
+    return (
+      <div>
+        <h1>Appointments</h1>
+        <ul>
+          {this.data.appts.map(function(appt){
+            return <SingleApptTutor thisID = {appt._id} />;
+          })}
+        </ul>
+      </div>
+      );
+  }
   });

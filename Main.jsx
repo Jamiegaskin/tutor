@@ -3,6 +3,9 @@ Rates = new Mongo.Collection("rates");
 Adjustments = new Mongo.Collection("adjustments");
 StateVars = new Mongo.Collection("stateVars");
 Clients = new Mongo.Collection("clients");
+Cycles = new Mongo.Collection("cycles");
+Bills = new Mongo.Collection("bills");
+PayStubs = new Mongo.Collection("payStubs");
 
 if (Meteor.isClient) {
   Meteor.startup(function () {
@@ -25,7 +28,7 @@ if (Meteor.isServer) {
     return Meteor.users.find();
   })
 }
-
+/*
 var Test = React.createClass({
   render: function() {
     var arrayTest = [1, 2, 3, 4, 5];
@@ -39,3 +42,4 @@ var Test = React.createClass({
     	</div>);
   }
 });
+*/

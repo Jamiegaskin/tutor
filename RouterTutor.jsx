@@ -2,10 +2,9 @@ RouterTutor = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData: function() {
     var currentUser = Meteor.user().username;
-    var currentSession = StateVars.findOne({user: currentUser});
     return {
-      userID: currentSession._id,
-      currentPage: currentSession.mode
+      userID: StateVars.findOne({user: currentUser})._id,
+      currentPage: StateVars.findOne({user: currentUser}).mode
     };
   },
   select: function(event) {
@@ -14,11 +13,15 @@ RouterTutor = React.createClass({
       Meteor.logout()
       return;
     }
-    StateVars.update(this.data.userID, {$set: {mode: value}});
+    else if (value === "nav") {
+      return;
+    }
+    Meteor.call("setMode", value);
   },
   render: function() {
     return (
-      <select onChange={this.select} defaultValue={this.data.currentPage}>
+      <select onChange={this.select} value="nav">
+        <option value="nav">Navigation</option>
         <option value="addAppt">Add Appointment</option>
         <option value="apptView">Appointment List</option>
         <option value="editPass">Edit Password</option>
