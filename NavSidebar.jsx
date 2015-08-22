@@ -48,7 +48,6 @@ NavSidebarTutor = React.createClass({
         <span>{username}</span>
         <nav className="">
           <ul className="nav nav-pills nav-stacked">
-            <NavElem nav="nav"/>
 						<NavElem nav="addAppt"/>
 						<NavElem nav="apptView"/>
 						<NavElem nav="editPass"/>
@@ -73,7 +72,6 @@ NavSidebarMaster = React.createClass({
         <span>{username}</span>
         <nav className="">
           <ul className="nav nav-pills nav-stacked">
-						<NavElem nav="nav" />
 						<NavElem nav="addAppt" />
 						<NavElem nav="apptView"/>
 						<NavElem nav="addPay"/>
