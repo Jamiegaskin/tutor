@@ -49,9 +49,9 @@ EditTutor = React.createClass({
         <p>Extra for PhD: $<input type="text" id="phd" defaultValue={tutor.profile.pay.phd}  /></p>
         <p>Extra for Travel: $<input type="text" id="travel" defaultValue={tutor.profile.pay.travel}  /></p>
         <p>Master Account <input type="checkbox" id="master" checked={tutor.profile.master} /></p>
-        <p><button className="btn btn-default" onClick={this.exit}>Cancel</button>
-          <button className="btn btn-default" onClick={this.deleteTutor}>Delete</button>
-          <button className="btn btn-default" onClick={this.editTutor}>Submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>Cancel</button>
+          <button className="btn btn-raised btn-default" onClick={this.deleteTutor}>Delete</button>
+          <button className="btn btn-raised btn-primary" onClick={this.editTutor}>Submit</button></p>
       </div>);
   }
 });

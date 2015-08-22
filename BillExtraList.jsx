@@ -17,7 +17,7 @@ BillExtraList = React.createClass({
 	    			return <SingleBillExtraView thisID={extra._id} />;
 	    		})}
 	    	</ul>
-	    	<button className="btn btn-default" onClick={this.addAnotherBill}>Add Another Bill Extra</button>
+	    	<button className="btn btn-raised btn-default" onClick={this.addAnotherBill}>Add Another Bill Extra</button>
 	    </div>
 	    );
 	}

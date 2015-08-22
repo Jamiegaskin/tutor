@@ -39,8 +39,8 @@ AddPayment = React.createClass({
         <p><input id="checkEdit" type="text" placeholder="Check #"/></p>
         <p>$<input id="payEdit" type="text" placeholder="Check Amount"/></p>
         <p>Date <input id="dateEdit" type="date" defaultValue={this.getToday()} /></p>
-        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
-          <button className="btn btn-default" onClick={this.addPayment}>submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-raised btn-primary" onClick={this.addPayment}>Submit</button></p>
 
       </div>);
   }

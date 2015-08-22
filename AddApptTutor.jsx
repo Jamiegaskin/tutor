@@ -125,8 +125,8 @@ AddApptTutor = React.createClass({
         <p>Pay: ${totalPay.toFixed(2)}</p>
         <p><textarea id="notesEdit" placeholder="Material Covered"/></p>
         <p><textarea id="commentsEdit" placeholder="Comments for Jenn (optional)"/></p>
-        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
-          <button className="btn btn-default" onClick={this.enterAppt}>submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-raised btn-primary" onClick={this.enterAppt}>Submit</button></p>
 
       </div>);
   }

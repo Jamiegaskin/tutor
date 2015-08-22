@@ -12,7 +12,7 @@ RatesList = React.createClass({
 	  return (
 	    <div>
 	    	
-	    	<button onClick={this.addRate}>Add Another Rate</button>
+	    	<button className="btn btn-raised" onClick={this.addRate}>Add Another Rate</button>
 	    	<ul>
 		      {this.data.rates.map(function(rate){
 		        return <SingleRateView thisID = {rate._id} />;

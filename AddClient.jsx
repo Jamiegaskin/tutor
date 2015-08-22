@@ -36,8 +36,8 @@ AddClient = React.createClass({
         <p><input id="motherCell" type="text" placeholder="Mother's Cell"/></p>
         <p><input id="fatherCell" type="text" placeholder="Father's Cell"/></p>
         <p><input id="studentCell" type="text" placeholder="Student's Cell"/></p>
-        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
-          <button className="btn btn-default" onClick={this.addClient}>submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-raised btn-primary" onClick={this.addClient}>Submit</button></p>
       </div>);
   }
 });

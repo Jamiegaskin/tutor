@@ -12,7 +12,7 @@ CyclesList = React.createClass({
 	  return (
 	    <div>
 	    	
-	    	<button onClick={this.addCycle}>Add Another Cycle</button>
+	    	<button className="btn btn-raised" onClick={this.addCycle}>Add Another Cycle</button>
 	    	<ul>
 		      {this.data.cycles.map(function(cycle){
 		        return <SingleCycleView thisID = {cycle._id} />;

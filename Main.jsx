@@ -47,7 +47,7 @@ var Test = React.createClass({
     */
     return (<div>
               <iframe height="1650" width="1275" src={BillDataURL}></iframe>
-              <button className="btn btn-default" onClick={this.emailTest}>EMAIL!</button>
+              <button className="btn btn-raised btn-default" onClick={this.emailTest}>EMAIL!</button>
             </div>)
   }
 });

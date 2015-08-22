@@ -12,7 +12,7 @@ ClientList = React.createClass({
 	  return (
 	    <div>
 	    	
-	    	<button onClick={this.addClient}>Add Another Client</button>
+	    	<button className="btn btn-raised" onClick={this.addClient}>Add Another Client</button>
 		      {this.data.clients.map(function(client){
 		        return <SingleClientView thisID = {client._id} />;
 		      })}

@@ -35,15 +35,15 @@ SingleCycleView = React.createClass({
       return <li key={cycle._id}>Name: <input type="text" id="name" defaultValue={cycle.name} />, 
                                 Start: <input type="date" id="start" defaultValue={cycle.start} />, 
                                 End: <input type="date" id="end" defaultValue={cycle.end} /> 
-                                <button className="btn btn-default" onClick={this.editCycle}>Submit</button> 
-                                <button className="btn btn-default" onClick={this.deleteCycle}>Delete</button>
-                                <button className="btn btn-default" onClick={this.exitEdit}>Cancel</button> 
+                                <button className="btn btn-raised btn-primary" onClick={this.editCycle}>Submit</button> 
+                                <button className="btn btn-raised btn-default" onClick={this.deleteCycle}>Delete</button>
+                                <button className="btn btn-raised btn-default" onClick={this.exitEdit}>Cancel</button> 
             </li>;
     } else {
       return <li key={cycle._id}>Name: {cycle.name}, 
                                 Start: {cycle.start}, 
                                 End: {cycle.end}  
-                                <button className="btn btn-default" onClick={this.enterEdit}>Edit</button> 
+                                <button className="btn btn-raised btn-default" onClick={this.enterEdit}>Edit</button> 
             </li>;
     }
   }

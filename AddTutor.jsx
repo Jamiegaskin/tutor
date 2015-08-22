@@ -48,8 +48,8 @@ AddTutor = React.createClass({
         <p>$<input type="text" id="phd" placeholder="Extra for PhD" /></p>
         <p>$<input type="text" id="travel" placeholder="Extra for Travel" /></p>
         <p>Master Account <input type="checkbox" id="master" /></p>
-        <p><button className="btn btn-default" onClick={this.exit}>Cancel</button>
-          <button className="btn btn-default" onClick={this.addTutor}>Add</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>Cancel</button>
+          <button className="btn btn-raised btn-default" onClick={this.addTutor}>Add</button></p>
         <p>The user will be created with their name as their username and default password "pass" which they may change on login.</p>
       </div>);
   }

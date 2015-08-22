@@ -22,8 +22,8 @@ AddCycle = React.createClass({
         <p><input id="name" type="text" placeholder="Name"/></p>
         <p>Start Date <input id="dateStart" type="date" defaultValue={this.getToday()} /></p>
         <p>Start Date <input id="dateEnd" type="date" defaultValue={this.getToday()} /></p>
-        <p><button className="btn btn-default" onClick={this.exit}>Cancel</button>
-          <button className="btn btn-default" onClick={this.addCycle}>Submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>Cancel</button>
+          <button className="btn btn-raised btn-primary" onClick={this.addCycle}>Submit</button></p>
       </div>);
   }
 });

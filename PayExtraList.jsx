@@ -17,7 +17,7 @@ PayExtraList = React.createClass({
 	    			return <SinglePayExtraView thisID={extra._id} />;
 	    		})}
 	    	</ul>
-	    	<button className="btn btn-default" onClick={this.addAnother}>Add Another Pay Extra</button>
+	    	<button className="btn btn-raised btn-default" onClick={this.addAnother}>Add Another Pay Extra</button>
 	    </div>
 	    );
 	}

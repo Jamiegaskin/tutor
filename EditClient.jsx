@@ -53,10 +53,10 @@ EditClient = React.createClass({
         <p>Previous Balance: $<input id="previousBalanceEdit" type="text" defaultValue={client.previousBalance} /></p>
         <p>Current Balance: $<input id="balanceEdit" type="text" defaultValue={client.balance} /></p>
         <p>Active <input type="checkbox" id="active" checked={client.active}/></p>
-        <p><button className="btn btn-default" onClick={this.exit}>Cancel</button>
-          <button className="btn btn-default" onClick={this.deleteClient}>Remove Client</button>
-          <button className="btn btn-default" onClick={this.enterPayHistory}>Edit Pay History</button>
-          <button className="btn btn-default" onClick={this.editClient}>Submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>Cancel</button>
+          <button className="btn btn-raised btn-default" onClick={this.deleteClient}>Remove Client</button>
+          <button className="btn btn-raised btn-default" onClick={this.enterPayHistory}>Edit Pay History</button>
+          <button className="btn btn-raised btn-primary" onClick={this.editClient}>Submit</button></p>
       </div>);
     }
 });

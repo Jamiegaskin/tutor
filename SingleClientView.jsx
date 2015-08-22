@@ -34,8 +34,8 @@ SingleClientView = React.createClass({
                               Paid this cycle: ${this.paidThisCycle(client)},
                               Current Balance: ${client.balance},
                               Active: {client.active? "yes":"no"}
-                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
-                              <button className="btn btn-default" onClick={this.enterPayHistoryMode}>View Pay History</button>
+                              <button className="btn btn-raised btn-default" onClick={this.enterEditMode}>Edit</button>
+                              <button className="btn btn-raised btn-default" onClick={this.enterPayHistoryMode}>View Pay History</button>
           </li>;
   }
 });

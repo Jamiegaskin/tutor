@@ -15,7 +15,7 @@ ApptListMaster = React.createClass({
 	  return (
       <div>
         
-        <button onClick={this.addAppt}>Add Another Appointment</button>
+        <button className="btn btn-raised" onClick={this.addAppt}>Add Another Appointment</button>
         <p>Pay and bill, as of now, do not accurately reflect type A cancellations, but are calculated correctly in bills and pay stubs</p>
   	    <ul>
   	      {this.data.appts.map(function(appt){
