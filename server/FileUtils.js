@@ -27,6 +27,10 @@ createPDF = function(data) {
                             colorspace:'gray',
                             color:0x00
                           });
+
+  // https://github.com/galkahana/HummusJS/wiki/Show-text has some
+  // methods you can use to measure text and get a width, should help
+  // with multi-lining
   pageModifier.endContext().writePage();
   pdfWriter.end();
 };
