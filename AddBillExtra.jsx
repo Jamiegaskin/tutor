@@ -11,9 +11,9 @@ AddBillExtra = React.createClass({
     var amount = parseFloat(document.getElementById("amount").value);
     var occasion = document.getElementById("occasion").value;
     var cycleName = document.getElementById("cycle").value;
-    var cycle = Cycles.findOne({name: cycleName});
-    var client = Clients.findOne({parents: clientParents});
-    Meteor.call("addBillExtra", client, cycle, occasion, amount);
+    var cycleID = Cycles.findOne({name: cycleName})._id;
+    var clientID = Clients.findOne({parents: clientParents})._id;
+    Meteor.call("addBillExtra", clientID, cycleID, occasion, amount);
     this.exit();
   },
   exit: function() {

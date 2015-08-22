@@ -4,6 +4,8 @@ Adjustments = new Mongo.Collection("adjustments");
 StateVars = new Mongo.Collection("stateVars");
 Clients = new Mongo.Collection("clients");
 Cycles = new Mongo.Collection("cycles");
+PayExtras = new Mongo.Collection("payExtras");
+BillExtras = new Mongo.Collection("billExtras");
 Bills = new Mongo.Collection("bills");
 PayStubs = new Mongo.Collection("payStubs");
 
@@ -16,30 +18,36 @@ if (Meteor.isClient) {
             Meteor.logout();
         }
         */
-    //React.render(<Test />, document.getElementById("test"));
+    React.render(<Test />, document.getElementById("test"));
   });
 };
 
 if (Meteor.isServer) {
   Accounts.onLogin(function(user) {
-    StateVars.update({user: user.user.username}, {$set:{mode: "addAppt", editID: ""}});
+    //StateVars.update({user: user.user.username}, {$set:{mode: "addAppt", editID: ""}});
   });
   Meteor.publish("allUsers", function() {
     return Meteor.users.find();
   })
 }
-/*
+
 var Test = React.createClass({
+  emailTest: function() {
+    Meteor.call("sendEmail", "jamiegaskin@gmail.com", "jamiegaskin@gmail.com", "testing", "does this work? <a href="+BillDataURL+">bill</a>")
+  },
   render: function() {
-    var arrayTest = [1, 2, 3, 4, 5];
-    return (
-    	<div>
-        <ul id="list">
-          {arrayTest.map(function(num) {
-            return <li>{num}</li>;
-          })}
-        </ul>
-    	</div>);
+    /*
+    var doc = new jsPDF("p","pt","letter");
+    doc.addImage(BillDataURL, 'JPEG', 0, 0, 612, 792);
+    doc.save("name");
+    var divStyle = {
+      height: "1650px",
+      width: "1275px",
+    };
+    */
+    return (<div>
+              //<iframe height="1650" width="1275" src={BillDataURL}></iframe>;
+              <button onClick={this.emailTest}>EMAIL!</button>
+            </div>)
   }
 });
-*/

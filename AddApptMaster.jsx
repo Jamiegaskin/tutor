@@ -7,7 +7,8 @@ AddApptMaster = React.createClass({
       hours: 1,
       ap: false,
       phd: false,
-      travel: false
+      travel: false,
+      cancel: "kept"
     }
   },
   getMeteorData: function() {
@@ -22,6 +23,7 @@ AddApptMaster = React.createClass({
         students = students.concat(client.students);
       }
     })
+    var numA = thisClient? Appts.find({clientID: thisClient._id, cancel: "A"}).count():0;
     return {
       adjustments: Adjustments.findOne(),
       students: students,
@@ -29,20 +31,23 @@ AddApptMaster = React.createClass({
       users: Meteor.users.find(),
       pay: Meteor.users.findOne({username: tutor}).profile.pay,
       billBase: rate? rate.rate:0,
+      numA: numA
     };
   },
   enterAppt: function() {
-    tutor = document.getElementById("tutorEdit").value;
-    client = document.getElementById("clientEdit").value; 
-    date = document.getElementById("dateEdit").value;
-    subject = document.getElementById("subjectEdit").value;
-    hours = this.state.hours;
-    travel = this.state.travel;
-    ap = this.state.ap;
-    phd = this.state.phd;
-    notes = document.getElementById("notesEdit").value;
-    comments = document.getElementById("commentsEdit").value;
-    Meteor.call("addAppt", tutor, client, date, subject, hours, travel, ap, phd, notes, comments);
+    var tutor = document.getElementById("tutorEdit").value;
+    var student = document.getElementById("clientEdit").value; 
+    var clientID = Clients.findOne({students: student})._id;
+    var date = document.getElementById("dateEdit").value;
+    var subject = document.getElementById("subjectEdit").value;
+    var hours = this.state.hours;
+    var travel = this.state.travel;
+    var ap = this.state.ap;
+    var phd = this.state.phd;
+    var cancel = this.state.cancel;
+    var notes = document.getElementById("notesEdit").value;
+    var comments = document.getElementById("commentsEdit").value;
+    Meteor.call("addAppt", tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, notes, comments);
     this.exit();
   },
   exit: function() {
@@ -72,11 +77,15 @@ AddApptMaster = React.createClass({
   handlePHD: function(event) {
     this.setState({phd: event.target.checked})
   },
+  handleCancel: function(event) {
+    this.setState({cancel: event.target.value});
+  },
   render: function() {
     var appt = this.data.thisAppt;
     var pay = this.data.pay;
-    var totalPay = pay.base * this.state.hours + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0) + (this.state.travel? pay.travel:0);
-    var totalBill = this.data.billBase*this.state.hours + (this.state.ap? this.data.adjustments.ap:0) + (this.state.travel? this.data.adjustments.travel:0);
+    var cancel = (this.state.cancel === "B" || this.data.numA > 1 || this.state.cancel === "kept")? 1:0;
+    var totalPay = ((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0))*cancel;
+    var totalBill = ((this.data.billBase + (this.state.ap? this.data.adjustments.ap:0)) * this.state.hours + (this.state.travel? this.data.adjustments.travel:0))*cancel;
     return (
       <div>
         <h1>Add Appointment</h1>
@@ -89,13 +98,12 @@ AddApptMaster = React.createClass({
             })}
           </select>
         </p>
-        <p><input id="clientEdit" list="studentList" placeholder="Student" onChange={this.handleClient}>
+        <p><input id="clientEdit" list="studentList" placeholder="Student" onChange={this.handleClient} />
             <datalist id="studentList">
               {this.data.students.map(function(student) {
                 return <option value={student}/>
               })}
             </datalist>
-          </input>
         </p> 
         <p>Date <input id="dateEdit" type="date" defaultValue={this.getToday()} /></p>
         <p><input id="subjectEdit" type="text" placeholder="Subject" /></p>
@@ -111,6 +119,14 @@ AddApptMaster = React.createClass({
         <p>Travel <input id="travelEdit" type="checkbox" onChange={this.handleTravel}/></p>
         <p>AP <input id="apEdit" type="checkbox" onChange={this.handleAP}/></p>
         <p>PhD <input id="phdEdit" type="checkbox" onChange={this.handlePHD}/></p>
+        <p>Cancellation <select id="cancel" defaultValue="kept" onChange={this.handleCancel}>
+            <option value="kept">Appointment kept</option>
+            <option value="A">A) 24 Hours notice given. Two per semester at no charge</option>
+            <option value="B">B) 24 Hours notice not given or failed appointment</option>
+            <option value="C">C) Sudden or severe illness</option>
+            <option value="D">D) School Vacation</option>
+          </select>
+        </p>
         <p>Bill: ${totalBill.toFixed(2)}</p>
         <p>Pay: ${totalPay.toFixed(2)}</p>
         <p><textarea id="notesEdit" placeholder="Notes"/></p>

@@ -8,11 +8,12 @@ AddPayExtra = React.createClass({
   },
   addPayExtra: function() {
     var tutor = document.getElementById("tutorEdit").value;
+    var tutorID = Meteor.users.findOne({username: tutor})._id;
     var amount = parseFloat(document.getElementById("amount").value);
     var occasion = document.getElementById("occasion").value;
     var cycleName = document.getElementById("cycle").value;
-    var cycle = Cycles.findOne({name: cycleName});
-    Meteor.call("addPayExtra", tutor, cycle, occasion, amount);
+    var cycleID = Cycles.findOne({name: cycleName})._id;
+    Meteor.call("addPayExtra", tutorID, cycleID, occasion, amount);
     this.exit();
   },
   exit: function() {

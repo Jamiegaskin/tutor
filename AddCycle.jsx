@@ -1,5 +1,5 @@
 AddCycle = React.createClass({
-  addPayment: function() {
+  addCycle: function() {
     name = document.getElementById("name").value; 
     start = document.getElementById("dateStart").value;
     end = document.getElementById("dateEnd").value;
@@ -23,7 +23,7 @@ AddCycle = React.createClass({
         <p>Start Date <input id="dateStart" type="date" defaultValue={this.getToday()} /></p>
         <p>Start Date <input id="dateEnd" type="date" defaultValue={this.getToday()} /></p>
         <p><button onClick={this.exit}>Cancel</button>
-          <button onClick={this.addPayment}>Submit</button></p>
+          <button onClick={this.addCycle}>Submit</button></p>
       </div>);
   }
 });

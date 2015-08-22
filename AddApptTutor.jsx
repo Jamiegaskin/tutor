@@ -6,7 +6,8 @@ AddApptTutor = React.createClass({
       hours: 1,
       ap: false,
       phd: false,
-      travel: false
+      travel: false,
+      cancel: "kept",
     }
   },
   getMeteorData: function() {
@@ -19,25 +20,30 @@ AddApptTutor = React.createClass({
         students = students.concat(client.students);
       }
     })
+    var numA = thisClient? Appts.find({clientID: thisClient._id, cancel: "A"}).count():0;
     return {
       thisClient: thisClient,
       adjustments: Adjustments.findOne(),
       students: students,
       clients: clients,
       pay: Meteor.user().profile.pay,
+      numA: numA,
     };
   },
   enterAppt: function() {
-    tutor = Meteor.user().username;
-    date = document.getElementById("dateEdit").value;
-    subject = document.getElementById("subjectEdit").value;
-    hours = this.state.hours;
-    travel = this.state.travel;
-    ap = this.state.ap;
-    phd = this.state.phd;
-    notes = document.getElementById("notesEdit").value;
-    comments = document.getElementById("commentsEdit").value;
-    Meteor.call("addAppt", tutor, this.state.student, date, subject, hours, travel, ap, phd, notes, comments);
+    var tutor = Meteor.user().username;
+    var student = this.state.student;
+    var clientID = Clients.find({students: student})._id
+    var date = document.getElementById("dateEdit").value;
+    var subject = document.getElementById("subjectEdit").value;
+    var hours = this.state.hours;
+    var travel = this.state.travel;
+    var ap = this.state.ap;
+    var phd = this.state.phd;
+    var cancel = this.state.cancel;
+    var notes = document.getElementById("notesEdit").value;
+    var comments = document.getElementById("commentsEdit").value;
+    Meteor.call("addAppt", tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, notes, comments);
     this.exit();
   },
   exit: function() {
@@ -56,21 +62,25 @@ AddApptTutor = React.createClass({
     this.setState({hours: parseFloat(event.target.value)});
   },
   handleTravel: function(event) {
-    this.setState({travel: event.target.checked})
+    this.setState({travel: event.target.checked});
   },
   handleAP: function(event) {
-    this.setState({ap: event.target.checked})
+    this.setState({ap: event.target.checked});
   },
   handlePHD: function(event) {
-    this.setState({phd: event.target.checked})
+    this.setState({phd: event.target.checked});
+  },
+  handleCancel: function(event) {
+    this.setState({cancel: event.target.value});
   },
   render: function() {
     var pay = this.data.pay;
-    var totalPay = pay.base * this.state.hours + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0) + (this.state.travel? pay.travel:0);
+    var cancel = (this.state.cancel === "B" || this.data.numA > 1 || this.state.cancel === "kept")? 1:0;
+    var totalPay = cancel((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
     return (
       <div>
         <h1>Add Appointment</h1>
-        <p><input id="clientEdit" list="studentList" placeholder="Student" onChange={this.handleClient}>
+        <p><input id="clientEdit" list="studentList" placeholder="Student" onChange={this.handleClient} >
             <datalist id="studentList">
               {this.data.students.map(function(student) {
                 return <option value={student}/>
@@ -92,6 +102,14 @@ AddApptTutor = React.createClass({
         <p>Travel <input id="travelEdit" type="checkbox" onChange={this.handleTravel}/></p>
         <p>AP <input id="apEdit" type="checkbox" onChange={this.handleAP}/></p>
         <p>PhD <input id="phdEdit" type="checkbox" onChange={this.handlePHD}/></p>
+        <p>Cancellation <select id="cancel" defaultValue="kept" onChange={this.handleCancel}>
+            <option value="kept">Appointment kept</option>
+            <option value="A">A) 24 Hours notice given. Two per semester at no charge</option>
+            <option value="B">B) 24 Hours notice not given or failed appointment</option>
+            <option value="C">C) Sudden or severe illness</option>
+            <option value="D">D) School Vacation</option>
+          </select>
+        </p>
         <p>Pay: ${totalPay.toFixed(2)}</p>
         <p><textarea id="notesEdit" placeholder="Material Covered"/></p>
         <p><textarea id="commentsEdit" placeholder="Comments for Jenn (optional)"/></p>

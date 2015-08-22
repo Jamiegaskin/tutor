@@ -82,7 +82,7 @@ EditSingleAppt = React.createClass({
   render: function() {
     var appt = this.data.thisAppt;
     var pay = this.data.pay;
-    var totalPay = pay.base * this.state.hours + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0) + (this.state.travel? pay.travel:0);
+    var totalPay = (pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0);
     return (
       <div>
         <h1>Edit Appointment</h1>

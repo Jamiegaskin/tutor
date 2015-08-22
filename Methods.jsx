@@ -18,26 +18,26 @@ Meteor.methods({
 	},
 
 	// Appointment methods
-	addAppt: function(tutor, student, date, subject, hours, travel, ap, phd, notes, comments) {
+	addAppt: function(tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, notes, comments) {
 		var adjustments = Adjustments.findOne();
 		var payInfo = Meteor.users.findOne({username: tutor}).profile.pay;
 		var parents = Clients.findOne({students: student}).parents;
 		var billBase = Rates.findOne({tutor: tutor, parents: parents}).rate;
-		var bill = billBase*hours + (ap? adjustments.ap:0) + (travel? adjustments.travel:0);
-		var pay = payInfo.base*hours + (ap? payInfo.ap:0) + (phd? payInfo.phd:0) + (travel? payInfo.travel:0);
-		Appts.insert({tutor: tutor, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, adjustments: adjustments, payInfo: payInfo, baseRate: billBase});
+		var bill = (billBase + (ap? adjustments.ap:0)) * hours + (travel? adjustments.travel:0);
+		var pay = (payInfo.base + (ap? payInfo.ap:0) + (phd? payInfo.phd:0)) * hours + (travel? payInfo.travel:0);
+		Appts.insert({tutor: tutor, clientID: clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, adjustments: adjustments, payInfo: payInfo, baseRate: billBase, cancel: cancel});
 	},
-	editAppt: function(id, tutor, student, date, subject, hours, travel, ap, phd, bill, pay, notes, comments) {
-		Appts.update({_id: id}, {$set: {tutor: tutor, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay}});
+	editAppt: function(id, tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, bill, pay, notes, comments) {
+		Appts.update({_id: id}, {$set: {tutor: tutor, clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, cancel: cancel}});
 	},
-	editApptTutor: function(id, tutor, student, date, subject, hours, travel, ap, phd, notes, comments) {
+	editApptTutor: function(id, tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, notes, comments) {
 		var appt = Appts.findOne({_id: id});
 		var adjustments = appt.adjustments;
 		var payInfo = appt.payInfo;
 		var billBase = appt.baseRate;
-		var bill = billBase*hours + (ap? adjustments.ap:0) + (travel? adjustments.travel:0);
-		var pay = payInfo.base*hours + (ap? payInfo.ap:0) + (phd? payInfo.phd:0) + (travel? payInfo.travel:0);
-		Appts.update({_id: id}, {$set: {tutor: tutor, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay}});
+		var bill = (billBase + (ap? adjustments.ap:0))*hours + (travel? adjustments.travel:0);
+		var pay = (payInfo.base + (ap? payInfo.ap:0) + (phd? payInfo.phd:0))*hours + (travel? payInfo.travel:0);
+		Appts.update({_id: id}, {$set: {tutor: tutor, clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, cancel: cancel}});
 	},
 	deleteAppt: function(id) {
 		Appts.remove({_id: id});
@@ -56,10 +56,10 @@ Meteor.methods({
 
 	// Client methods
 	addClient: function(parents, students, emails, address1, address2, home, motherCell, fatherCell, studentCell) {
-		Clients.insert({parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: 0, balance: 0, payHistory: []});
+		Clients.insert({parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: 0, balance: 0, payHistory: [], active: true});
 	},
-	editClient: function(id, parents, students, emails, address1, home, motherCell, fatherCell, studentCell, address2, previousBalance, balance) {
-		Clients.update({_id: id}, {$set:{parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: previousBalance, balance: balance}})
+	editClient: function(id, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, balance, active) {
+		Clients.update({_id: id}, {$set:{parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: previousBalance, balance: balance, active: active}})
 	},
 	deleteClient: function(id) {
 		Clients.remove({_id: id});
@@ -102,7 +102,7 @@ Meteor.methods({
 		PayExtras.insert({tutorID: tutorID, cycleID: cycleID, occasion: occasion, amount: amount});
 	},
 	editPayExtra: function(id, tutorID, cycleID, occasion, amount) {
-
+		PayExtras.update({_id: id}, {tutorID: tutorID, cycleID: cycleID, occasion: occasion, amount: amount});
 	},
 	deletePayExtra: function(id) {
 		PayExtras.remove({_id: id});
@@ -112,11 +112,17 @@ Meteor.methods({
 	addBillExtra: function(clientID, cycleID, occasion, amount) {
 		BillExtras.insert({clientID: clientID, cycleID: cycleID, occasion: occasion, amount: amount});
 	},
+	editBillExtra: function(id, clientID, cycleID, occasion, amount) {
+		BillExtras.update({_id: id}, {clientID: clientID, cycleID: cycleID, occasion: occasion, amount: amount});
+	},
+	deleteBillExtra: function(id) {
+		BillExtras.remove({_id: id});
+	},
 
 	// Generate (or regenerate) bills and pay stubs
 	generateBill: function(client, cycle) {
 		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
-		var extras = BillExtras.find({clientID; client._id, cycleID: cycle._id}).fetch()
+		var extras = BillExtras.find({clientID: client._id, cycleID: cycle._id}).fetch()
 		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
 			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras})
 		} else {
@@ -131,5 +137,21 @@ Meteor.methods({
 		} else {
 			PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras})
 		}
-	}
+	},
+
+	//Email
+	sendEmail: function (to, from, subject, text) {
+	    check([to, from, subject, text], [String]);
+
+	    // Let other method calls from the same client start running,
+	    // without waiting for the email sending to complete.
+	    this.unblock();
+
+	    Email.send({
+	      to: to,
+	      from: from,
+	      subject: subject,
+	      text: text
+	    });
+	  }
 })

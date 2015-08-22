@@ -25,7 +25,7 @@ Login = React.createClass({
         {failed}
         <p><input type="text" id="username" placeholder="Name" /></p>
         <p><input type="password" id="password" placeholder="Password" /></p>
-        <p><button onClick={this.login}>Login</button></p>
+        <p><button onClick={this.login} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Login</button></p>
       </div>);
   }
 });

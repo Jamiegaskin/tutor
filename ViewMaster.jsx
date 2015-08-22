@@ -75,6 +75,9 @@ ViewMaster = React.createClass({
     else if (mode === "addBillExtra") {
       body = <AddBillExtra />;
     }
+    else if (mode === "manageBillExtra") {
+      body = <BillExtraList />;
+    }
     return (
       <div>
         <RouterMaster />

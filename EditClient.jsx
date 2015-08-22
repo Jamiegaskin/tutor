@@ -14,7 +14,7 @@ EditClient = React.createClass({
   editClient: function() {
     var emails = document.getElementById("emailEdit").value;
     var students = document.getElementById("studentEdit").value; 
-    var parent = document.getElementById("parentEdit").value;
+    var parents = document.getElementById("parentEdit").value;
     var address1 = document.getElementById("address1Edit").value;
     var address2 = document.getElementById("address2Edit").value;
     var home = document.getElementById("home").value;
@@ -23,7 +23,8 @@ EditClient = React.createClass({
     var studentCell = document.getElementById("studentCell").value;
     var previousBalance = document.getElementById("previousBalanceEdit").value;
     var currentBalance = document.getElementById("balanceEdit").value;
-    Meteor.call("editClient", this.data.clientID, parent, students, emails, address1, address2, previousBalance, currentBalance);
+    var active = document.getElementById("active").checked;
+    Meteor.call("editClient", this.data.clientID, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, currentBalance, active)
     this.exit();
   },
   enterPayHistory: function() {
@@ -51,6 +52,7 @@ EditClient = React.createClass({
         <p>You should not have to edit these, unless something went wrong.</p>
         <p>Previous Balance: $<input id="previousBalanceEdit" type="text" defaultValue={client.previousBalance} /></p>
         <p>Current Balance: $<input id="balanceEdit" type="text" defaultValue={client.balance} /></p>
+        <p>Active <input type="checkbox" id="active" checked={client.active}/></p>
         <p><button onClick={this.exit}>Cancel</button>
           <button onClick={this.deleteClient}>Remove Client</button>
           <button onClick={this.enterPayHistory}>Edit Pay History</button>

@@ -31,7 +31,7 @@ AddClient = React.createClass({
         <p><input id="emailEdit" type="text" placeholder="Emails"/></p>
         <p>Seperate multiple emails with commas.</p>
         <p><input id="address1Edit" type="text" placeholder="House # and Street"/></p>
-        <p><input id="address2Edit" type="text" placeholder="City and State"/></p>
+        <p><input id="address2Edit" type="text" placeholder="City and State" defaultValue="Palo Alto, CA"/></p>
         <p><input id="home" type="text" placeholder="Home Phone"/></p>
         <p><input id="motherCell" type="text" placeholder="Mother's Cell"/></p>
         <p><input id="fatherCell" type="text" placeholder="Father's Cell"/></p>
