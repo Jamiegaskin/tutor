@@ -141,4 +141,9 @@ Meteor.methods({
 			PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras})
 		}
 	},
+	printBill: function(billId) {
+		if (Meteor.isServer) {
+			createPDF({});
+		}
+	},
 })
