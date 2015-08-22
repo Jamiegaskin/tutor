@@ -11,7 +11,7 @@ BillExtraList = React.createClass({
   render: function() {
 	  return (
 	    <div>
-	    	<h1>Client Bill Extras</h1>
+	    	
 	    	<ul>
 	    		{this.data.billExtras.map(function(extra) {
 	    			return <SingleBillExtraView thisID={extra._id} />;

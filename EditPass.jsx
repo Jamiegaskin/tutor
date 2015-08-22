@@ -41,7 +41,7 @@ EditPass = React.createClass({
     var failAlert = this.state.fail? <p>this.state.error</p>:"";
     return (
       <div>
-        <h1>Change password</h1>
+        
         {failAlert}
         <p><input id="oldPass" type="password" placeholder="Old password" /></p>
         <p><input id="passEdit1" type="password" placeholder="New password" /></p>

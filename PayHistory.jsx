@@ -17,7 +17,7 @@ PayHistory = React.createClass({
   render: function() {
     var client = this.data.thisClient;
     return <div>
-            <h1>Pay History</h1>
+            
             <h2>{client.parents}</h2>
             <ul>
               {client.payHistory.map(function(check) {

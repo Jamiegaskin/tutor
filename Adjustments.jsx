@@ -18,7 +18,7 @@ AdjustmentsView = React.createClass({
 	render: function() {
 		return (
 			<div>
-				<h1>Billing Adjustments</h1>
+				
 				<p>AP: $<input type="text" id="ap" defaultValue={this.data.adjustments.ap} /></p>
 				<p>Travel: $<input type="text" id="travel" defaultValue={this.data.adjustments.travel} /></p>
 				<p><button className="btn btn-default" onClick={this.exit}>Cancel</button>

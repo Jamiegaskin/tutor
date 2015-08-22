@@ -86,7 +86,7 @@ EditSingleAppt = React.createClass({
     var totalPay = cancel((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
     return (
       <div>
-        <h1>Edit Appointment</h1>
+        
         <p>Student: <input id="clientEdit" defaultValue={appt.client} list="studentList" onChange={this.handleClient}>
             <datalist id="studentList" >
               {this.data.students.map(function(student) {

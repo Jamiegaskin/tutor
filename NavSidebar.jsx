@@ -29,7 +29,7 @@ NavElem = React.createClass({
 	render: function() {
 		return (
 			<li role="presentation">
-				<a href="#" data-nav={this.props.nav} onClick={this.select}>{this.props.children}</a>
+				<a href="#" data-nav={this.props.nav} onClick={this.select}>{MODE_NAMES[this.props.nav]}</a>
 			</li>
 		);
 	}
@@ -48,11 +48,11 @@ NavSidebarTutor = React.createClass({
         <span>{username}</span>
         <nav className="">
           <ul className="nav nav-pills nav-stacked">
-            <NavElem nav="nav">Navigation</NavElem>
-						<NavElem nav="addAppt">Add Appointment</NavElem>
-						<NavElem nav="apptView">Appointment List</NavElem>
-						<NavElem nav="editPass">Edit Password</NavElem>
-						<NavElem nav="logout">Log Out</NavElem>
+            <NavElem nav="nav"/>
+						<NavElem nav="addAppt"/>
+						<NavElem nav="apptView"/>
+						<NavElem nav="editPass"/>
+						<NavElem nav="logout"/>
           </ul>
         </nav>
       </div>
@@ -73,25 +73,25 @@ NavSidebarMaster = React.createClass({
         <span>{username}</span>
         <nav className="">
           <ul className="nav nav-pills nav-stacked">
-						<NavElem nav="nav">Navigation</NavElem>
-						<NavElem nav="addAppt">Add Appointment</NavElem>
-						<NavElem nav="apptView">Appointment List</NavElem>
-						<NavElem nav="addPay">Add Payment</NavElem>
-						<NavElem nav="addPayExtra">Add Tutor Pay Extra</NavElem>
-						<NavElem nav="managePayExtra">Manage Tutor Pay Extras</NavElem>
-						<NavElem nav="addBillExtra">Add Bill Extra</NavElem>
-						<NavElem nav="manageBillExtra">Manage Bill Extras</NavElem>
-						<NavElem nav="addRate">Add Rate</NavElem>
-						<NavElem nav="manageRates">Manage Rates</NavElem>
-						<NavElem nav="addClient">Add Client</NavElem>
-						<NavElem nav="manageClients">Manage Clients</NavElem>
-						<NavElem nav="addTutor">Add Tutor</NavElem>
-						<NavElem nav="manageTutors">Manage Tutors</NavElem>
-						<NavElem nav="manageBillAdjustments">Manage Billing Adjustments</NavElem>
-						<NavElem nav="addCycle">Add Billing Cycle</NavElem>
-						<NavElem nav="manageCycles">Manage Billing Cycles</NavElem>
-						<NavElem nav="editPass">Edit Password</NavElem>
-						<NavElem nav="logout">Log Out</NavElem>
+						<NavElem nav="nav" />
+						<NavElem nav="addAppt" />
+						<NavElem nav="apptView"/>
+						<NavElem nav="addPay"/>
+						<NavElem nav="addPayExtra"/>
+						<NavElem nav="managePayExtra"/>
+						<NavElem nav="addBillExtra"/>
+						<NavElem nav="manageBillExtra"/>
+						<NavElem nav="addRate"/>
+						<NavElem nav="manageRates"/>
+						<NavElem nav="addClient"/>
+						<NavElem nav="manageClients"/>
+						<NavElem nav="addTutor"/>
+						<NavElem nav="manageTutors"/>
+						<NavElem nav="manageBillAdjustments"/>
+						<NavElem nav="addCycle"/>
+						<NavElem nav="manageCycles"/>
+						<NavElem nav="editPass"/>
+						<NavElem nav="logout"/>
           </ul>
         </nav>
       </div>

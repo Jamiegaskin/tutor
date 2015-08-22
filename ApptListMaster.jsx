@@ -14,7 +14,7 @@ ApptListMaster = React.createClass({
   render: function() {
 	  return (
       <div>
-        <h1>Appointments</h1>
+        
         <button onClick={this.addAppt}>Add Another Appointment</button>
         <p>Pay and bill, as of now, do not accurately reflect type A cancellations, but are calculated correctly in bills and pay stubs</p>
   	    <ul>

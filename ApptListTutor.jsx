@@ -11,7 +11,7 @@ ApptListTutor = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Appointments</h1>
+        
         <button onClick={this.addAppt}>Add Another Appointment</button>
         <p>Pay, as of now, does not accurately reflect type A cancellations, but is calculated correctly in bills and pay stubs</p>
         <ul>

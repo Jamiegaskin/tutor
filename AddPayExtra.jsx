@@ -30,7 +30,7 @@ AddPayExtra = React.createClass({
     var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}}).name;
     return (
       <div>
-        <h1>Add Tutor Pay Extra</h1>
+        
         <p>Tutor <select id="tutorEdit">
             {this.data.users.map(function(tutor) {
               if(tutor.profile.status === "Admin") {

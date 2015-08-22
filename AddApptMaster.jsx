@@ -100,7 +100,7 @@ AddApptMaster = React.createClass({
     var totalBill = ((this.data.billBase + (this.state.ap? this.data.adjustments.ap:0)) * this.state.hours + (this.state.travel? this.data.adjustments.travel:0))*cancel;
     return (
       <div>
-        <h1>Add Appointment</h1>
+
         <p>Tutor <select id="tutorEdit" defaultValue={this.state.tutor} onChange={this.handleTutor}>
             {this.data.users.map(function(tutor) {
               if(tutor.profile.status === "Admin") {

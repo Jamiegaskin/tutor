@@ -27,7 +27,7 @@ AddPayment = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Add Payment</h1>
+        
         <p><input id="clientEdit" list="parentList" onChange={this.handleParent} placeholder="Client">
             <datalist id="parentList">
               {this.data.clients.map(function(client) {

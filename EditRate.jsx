@@ -30,7 +30,7 @@ EditRate = React.createClass({
     rate = this.data.thisRate;
     return (
       <div>
-        <h1>Edit Rate</h1>
+        
         <p>Tutor: <select id="tutorEdit" defaultValue={rate.tutor}>
             {this.data.users.map(function(tutor) {
               if(tutor.profile.status === "Admin") {

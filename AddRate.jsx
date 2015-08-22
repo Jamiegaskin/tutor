@@ -22,7 +22,7 @@ AddRate = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Add Rate</h1>
+        
         <p>Tutor <select id="tutorEdit">
             {this.data.users.map(function(tutor) {
               if(tutor.profile.status === "Admin") {

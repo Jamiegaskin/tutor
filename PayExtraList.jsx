@@ -11,7 +11,7 @@ PayExtraList = React.createClass({
   render: function() {
 	  return (
 	    <div>
-	    	<h1>Tutor Pay Extras</h1>
+	    	
 	    	<ul>
 	    		{this.data.payExtras.map(function(extra) {
 	    			return <SinglePayExtraView thisID={extra._id} />;

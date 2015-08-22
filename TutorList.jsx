@@ -8,7 +8,7 @@ TutorList = React.createClass({
   render: function() {
 	  return (
 	    <div>
-	    	<h1>Manage Tutors</h1>
+	    	
 	    	<h2>Tutors</h2>
 	    	<ul>
 	             {this.data.tutors.map(function(tutor){

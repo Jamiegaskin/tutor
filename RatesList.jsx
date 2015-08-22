@@ -11,7 +11,7 @@ RatesList = React.createClass({
   render: function() {
 	  return (
 	    <div>
-	    	<h1>Rates</h1>
+	    	
 	    	<button onClick={this.addRate}>Add Another Rate</button>
 	    	<ul>
 		      {this.data.rates.map(function(rate){

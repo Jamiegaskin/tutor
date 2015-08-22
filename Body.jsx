@@ -1,7 +1,10 @@
 Body = React.createClass({
 	mixins: [ReactMeteorData],
 	getMeteorData: function() {
-		return {};
+		var currentUser = Meteor.user().username;
+    return {
+      session: StateVars.findOne({user: currentUser})
+    };
 	},
 	render: function() {
     var view = this.props.view;
@@ -13,7 +16,8 @@ Body = React.createClass({
           </div>
           <div className="column col-sm-10 col-xs-11" id="main">
             <header className="navbar navbar-blue navbar-static-top">
-              <span className="navbar-brand"><MonitorState /></span>
+              <span className="navbar-brand">{MODE_NAMES[this.data.session.mode]}</span>
+							<MonitorState />
             </header>
             <div className="padding">
               <div className="full">

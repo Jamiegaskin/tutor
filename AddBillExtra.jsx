@@ -30,7 +30,7 @@ AddBillExtra = React.createClass({
     var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}}).name;
     return (
       <div>
-        <h1>Add Bill Extra</h1>
+        
         <p><input id="parent" list="parentList" placeholder="Client">
             <datalist id="parentList">
               {this.data.clients.map(function(client) {

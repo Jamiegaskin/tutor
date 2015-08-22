@@ -18,7 +18,7 @@ AddCycle = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Add Billing Cycle</h1>
+        
         <p><input id="name" type="text" placeholder="Name"/></p>
         <p>Start Date <input id="dateStart" type="date" defaultValue={this.getToday()} /></p>
         <p>Start Date <input id="dateEnd" type="date" defaultValue={this.getToday()} /></p>
