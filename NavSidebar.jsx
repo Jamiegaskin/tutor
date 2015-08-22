@@ -7,14 +7,35 @@ NavSidebar = React.createClass({
 	},
 	render: function() {
     if (this.data.isMaster) {
-      return (<NavSidebarMaster />);
+      return (<NavSidebarMaster select={this.select}/>);
     } else {
-      return (<NavSidebarTutor />);
+      return (<NavSidebarTutor select={this.select}/>);
     }
 	}
 });
 
-NavSidebarMaster = React.createClass({
+NavElem = React.createClass({
+	select: function(event) {
+    var value = event.target.dataset.nav;
+    if (value === "logout"){
+      Meteor.logout()
+      return;
+    }
+    else if (value === "nav") {
+      return;
+    }
+    Meteor.call("setMode", value);
+  },
+	render: function() {
+		return (
+			<li role="presentation">
+				<a href="#" data-nav={this.props.nav} onClick={this.select}>{this.props.children}</a>
+			</li>
+		);
+	}
+});
+
+NavSidebarTutor = React.createClass({
 	mixins: [ReactMeteorData],
 	getMeteorData: function() {
     var currentUser = Meteor.user().username;
@@ -27,9 +48,11 @@ NavSidebarMaster = React.createClass({
         <span>{username}</span>
         <nav className="">
           <ul className="nav nav-pills nav-stacked">
-            <li role="presentation" className="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">Profile</a></li>
-            <li role="presentation"><a href="#">Messages</a></li>
+            <NavElem nav="nav">Navigation</NavElem>
+						<NavElem nav="addAppt">Add Appointment</NavElem>
+						<NavElem nav="apptView">Appointment List</NavElem>
+						<NavElem nav="editPass">Edit Password</NavElem>
+						<NavElem nav="logout">Log Out</NavElem>
           </ul>
         </nav>
       </div>
@@ -37,7 +60,7 @@ NavSidebarMaster = React.createClass({
 	}
 });
 
-NavSidebarTutor = React.createClass({
+NavSidebarMaster = React.createClass({
 	mixins: [ReactMeteorData],
 	getMeteorData: function() {
 		var currentUser = Meteor.user().username;
@@ -50,9 +73,25 @@ NavSidebarTutor = React.createClass({
         <span>{username}</span>
         <nav className="">
           <ul className="nav nav-pills nav-stacked">
-            <li role="presentation" className="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">Profile</a></li>
-            <li role="presentation"><a href="#">Messages</a></li>
+						<NavElem nav="nav">Navigation</NavElem>
+						<NavElem nav="addAppt">Add Appointment</NavElem>
+						<NavElem nav="apptView">Appointment List</NavElem>
+						<NavElem nav="addPay">Add Payment</NavElem>
+						<NavElem nav="addPayExtra">Add Tutor Pay Extra</NavElem>
+						<NavElem nav="managePayExtra">Manage Tutor Pay Extras</NavElem>
+						<NavElem nav="addBillExtra">Add Bill Extra</NavElem>
+						<NavElem nav="manageBillExtra">Manage Bill Extras</NavElem>
+						<NavElem nav="addRate">Add Rate</NavElem>
+						<NavElem nav="manageRates">Manage Rates</NavElem>
+						<NavElem nav="addClient">Add Client</NavElem>
+						<NavElem nav="manageClients">Manage Clients</NavElem>
+						<NavElem nav="addTutor">Add Tutor</NavElem>
+						<NavElem nav="manageTutors">Manage Tutors</NavElem>
+						<NavElem nav="manageBillAdjustments">Manage Billing Adjustments</NavElem>
+						<NavElem nav="addCycle">Add Billing Cycle</NavElem>
+						<NavElem nav="manageCycles">Manage Billing Cycles</NavElem>
+						<NavElem nav="editPass">Edit Password</NavElem>
+						<NavElem nav="logout">Log Out</NavElem>
           </ul>
         </nav>
       </div>

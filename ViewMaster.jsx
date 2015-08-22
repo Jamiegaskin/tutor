@@ -80,7 +80,6 @@ ViewMaster = React.createClass({
     }
     return (
       <div>
-        <RouterMaster />
         {body}
       </div>
       )

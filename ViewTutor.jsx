@@ -23,7 +23,6 @@ ViewTutor = React.createClass({
     }
     return (
       <div>
-        <RouterTutor />
         {body}
       </div>
       )
