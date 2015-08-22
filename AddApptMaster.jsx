@@ -23,7 +23,6 @@ AddApptMaster = React.createClass({
         students = students.concat(client.students);
       }
     })
-    var numA = thisClient? Appts.find({clientID: thisClient._id, cancel: "A"}).count():0;
     return {
       adjustments: Adjustments.findOne(),
       students: students,
@@ -31,7 +30,7 @@ AddApptMaster = React.createClass({
       users: Meteor.users.find(),
       pay: Meteor.users.findOne({username: tutor}).profile.pay,
       billBase: rate? rate.rate:0,
-      numA: numA
+      numA: this.calcNumA()
     };
   },
   enterAppt: function() {
@@ -58,6 +57,19 @@ AddApptMaster = React.createClass({
     var todayAdjust = new Date(today.getTime() - today.getTimezoneOffset()*60000);
     var todayStr = todayAdjust.toISOString().substr(0,10);
     return todayStr;
+  },
+  // calculates the number of A cancelations in the current semester
+  calcNumA: function() {
+    var springStart = this.getToday().substr(0,4) + "-01-01";
+    var springEnd = this.getToday().substr(0,4) + "-06-01";
+    var fallStart = this.getToday().substr(0,4) + "-08-01";
+    var fallEnd = this.getToday().substr(0,4) + "-12-30";
+    if (this.getToday() < fallStart) {
+      var sum = Appts.find({student: this.state.student, cancel: "A", date: {$gt: springStart, $lt: springEnd}}).count();
+    } else {
+      var sum = Appts.find({student: this.state.student, cancel: "A", date: {$gt: fallStart, $lt: fallEnd}}).count();
+    }
+    return sum;
   },
   handleTutor: function(event) {
     this.setState({tutor: event.target.value});
@@ -94,14 +106,14 @@ AddApptMaster = React.createClass({
               if(tutor.profile.status === "Admin") {
                 return;
               }
-              return <option>{tutor.username}</option>;
+              return <option key={tutor._id}>{tutor.username}</option>;
             })}
           </select>
         </p>
         <p><input id="clientEdit" list="studentList" placeholder="Student" onChange={this.handleClient} />
             <datalist id="studentList">
               {this.data.students.map(function(student) {
-                return <option value={student}/>
+                return <option key={student} value={student}/>
               })}
             </datalist>
         </p>
@@ -129,7 +141,7 @@ AddApptMaster = React.createClass({
         </p>
         <p>Bill: ${totalBill.toFixed(2)}</p>
         <p>Pay: ${totalPay.toFixed(2)}</p>
-        <p><textarea id="notesEdit" placeholder="Notes"/></p>
+        <p><textarea id="notesEdit" placeholder="Material Covered"/></p>
         <p><textarea id="commentsEdit" placeholder="Comments"/></p>
         <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
           <button className="btn btn-default" onClick={this.enterAppt}>submit</button></p>

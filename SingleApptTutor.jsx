@@ -13,13 +13,15 @@ SingleApptTutor = React.createClass({
     return <li key={appt._id}>Student: {appt.student},
                               Subject: {appt.subject},
                               Date: {appt.date},
+                              Hours: {appt.hours},
                               Notes: {appt.notes},
                               Comments: {appt.comments},
                               Travel: {appt.travel? "Yes":"No"},
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
-                              Pay: {appt.pay}
-                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
+                              Pay: ${appt.pay},
+                              Cancel: {appt.cancel},
+                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>,
           </li>;
   }
 });

@@ -20,14 +20,13 @@ AddApptTutor = React.createClass({
         students = students.concat(client.students);
       }
     })
-    var numA = thisClient? Appts.find({clientID: thisClient._id, cancel: "A"}).count():0;
     return {
       thisClient: thisClient,
       adjustments: Adjustments.findOne(),
       students: students,
       clients: clients,
       pay: Meteor.user().profile.pay,
-      numA: numA,
+      numA: this.calcNumA(),
     };
   },
   enterAppt: function() {
@@ -55,6 +54,19 @@ AddApptTutor = React.createClass({
     var todayStr = todayAdjust.toISOString().substr(0,10);
     return todayStr;
   },
+  // calculates the number of A cancelations in the current semester
+  calcNumA: function() {
+    var springStart = this.getToday().substr(0,4) + "-01-01";
+    var springEnd = this.getToday().substr(0,4) + "-06-01";
+    var fallStart = this.getToday().substr(0,4) + "-08-01";
+    var fallEnd = this.getToday().substr(0,4) + "-12-30";
+    if (this.getToday() < fallStart) {
+      var sum = Appts.find({student: this.state.student, cancel: "A", date: {$gt: springStart, $lt: springEnd}}).count();
+    } else {
+      var sum = Appts.find({student: this.state.student, cancel: "A", date: {$gt: fallStart, $lt: fallEnd}}).count();
+    }
+    return sum;
+  },
   handleClient: function(event) {
     this.setState({student: event.target.value});
   },
@@ -76,14 +88,14 @@ AddApptTutor = React.createClass({
   render: function() {
     var pay = this.data.pay;
     var cancel = (this.state.cancel === "B" || this.data.numA > 1 || this.state.cancel === "kept")? 1:0;
-    var totalPay = cancel((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
+    var totalPay = cancel*((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
     return (
       <div>
         <h1>Add Appointment</h1>
         <p><input id="clientEdit" list="studentList" placeholder="Student" onChange={this.handleClient} >
             <datalist id="studentList">
               {this.data.students.map(function(student) {
-                return <option value={student}/>
+                return <option key={student} value={student}/>
               })}
             </datalist>
           </input>

@@ -16,19 +16,21 @@ EditSingleApptMaster = React.createClass({
     };
   },
   editAppt: function() {
-    tutor = document.getElementById("tutorEdit").value;
-    client = document.getElementById("clientEdit").value; 
-    date = document.getElementById("dateEdit").value;
-    subject = document.getElementById("subjectEdit").value;
-    hours = parseFloat(document.getElementById("hoursEdit").value);
-    travel = document.getElementById("travelEdit").checked;
-    ap = document.getElementById("apEdit").checked;
-    phd = document.getElementById("phdEdit").checked
-    bill = parseFloat(document.getElementById("billEdit").value);
-    pay = parseFloat(document.getElementById("payEdit").value);
-    notes = document.getElementById("notesEdit").value;
-    comments = document.getElementById("commentsEdit").value;
-    Meteor.call("editAppt", this.data.editID, tutor, client, date, subject, hours, travel, ap, phd, bill, pay, notes, comments);
+    var tutor = document.getElementById("tutorEdit").value;
+    var student = document.getElementById("clientEdit").value; 
+    var clientID = Clients.findOne({students: student})._id
+    var date = document.getElementById("dateEdit").value;
+    var subject = document.getElementById("subjectEdit").value;
+    var hours = parseFloat(document.getElementById("hoursEdit").value);
+    var travel = document.getElementById("travelEdit").checked;
+    var ap = document.getElementById("apEdit").checked;
+    var phd = document.getElementById("phdEdit").checked;
+    var cancel = document.getElementById("cancel").value;
+    var bill = parseFloat(document.getElementById("billEdit").value);
+    var pay = parseFloat(document.getElementById("payEdit").value);
+    var notes = document.getElementById("notesEdit").value;
+    var comments = document.getElementById("commentsEdit").value;
+    Meteor.call("editAppt", this.data.editID, tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, bill, pay, notes, comments);
     this.exit();
   },
   exit: function() {
@@ -75,6 +77,14 @@ EditSingleApptMaster = React.createClass({
         <p>Travel: <input id="travelEdit" type="checkbox" defaultChecked={appt.travel} /></p>
         <p>AP: <input id="apEdit" type="checkbox" defaultChecked={appt.ap} /></p>
         <p>PhD: <input id="phdEdit" type="checkbox" defaultChecked={appt.phd} /></p>
+        <p>Cancellation <select id="cancel" defaultValue={appt.cancel}>
+            <option value="kept">Appointment kept</option>
+            <option value="A">A) 24 Hours notice given. Two per semester at no charge</option>
+            <option value="B">B) 24 Hours notice not given or failed appointment</option>
+            <option value="C">C) Sudden or severe illness</option>
+            <option value="D">D) School Vacation</option>
+          </select>
+        </p>
         <p>Bill: $<input id="billEdit" type="text" defaultValue={appt.bill} /></p>
         <p>Pay: $<input id="payEdit" type="text" defaultValue={appt.pay} /></p>
         <p>Notes: <br/><textarea id="notesEdit" defaultValue={appt.notes} /></p>
