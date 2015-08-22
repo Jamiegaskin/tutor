@@ -19,6 +19,7 @@ SingleApptMaster = React.createClass({
                               Travel: {appt.travel? "Yes":"No"},
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
+                              Cancel: {appt.cancel}, 
                               Bill: ${appt.bill},
                               Pay: ${appt.pay}
                               <button onClick={this.enterEditMode}>Edit</button>

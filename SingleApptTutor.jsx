@@ -12,13 +12,15 @@ SingleApptTutor = React.createClass({
     var appt = this.data.thisAppt;
     return <li key={appt._id}>Student: {appt.student},
                               Subject: {appt.subject},
-                              Date: {appt.date},
+                              Date: {appt.date}, 
+                              Hours: {appt.hours}, 
                               Notes: {appt.notes},
                               Comments: {appt.comments},
                               Travel: {appt.travel? "Yes":"No"},
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
-                              Pay: {appt.pay}
+                              Pay: ${appt.pay}, 
+                              Cancel: {appt.cancel} 
                               <button onClick={this.enterEditMode}>Edit</button>
           </li>;
   }

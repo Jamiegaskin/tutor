@@ -15,14 +15,14 @@ TutorList = React.createClass({
 		      	    if (tutor.profile.status === "Admin"){
 				      return;
 				    }
-			        return <SingleTutorView thisID = {tutor._id} />;
+			        return <SingleTutorView key={tutor._id} thisID = {tutor._id} />;
 			      })}
              </ul>
 		      <h2>Admins</h2>
 		      <ul>
 			      {this.data.tutors.map(function(tutor){
 		      	    if (tutor.profile.status === "Admin"){
-				      return <li>{tutor.username}</li>
+				      return <li key={tutor._id}>{tutor.username}</li>;
 				    }
 			      })}
 		      </ul>

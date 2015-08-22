@@ -18,7 +18,7 @@ if (Meteor.isClient) {
             Meteor.logout();
         }
         */
-    React.render(<Test />, document.getElementById("test"));
+    //React.render(<Test />, document.getElementById("test"));
   });
 };
 

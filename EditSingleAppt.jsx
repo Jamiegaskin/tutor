@@ -8,7 +8,8 @@ EditSingleAppt = React.createClass({
       hours: appt.hours,
       ap: appt.ap,
       phd: appt.phd,
-      travel: appt.travel
+      travel: appt.travel,
+      cancel: appt.cancel
     }
   },
   getMeteorData: function() {
@@ -32,10 +33,6 @@ EditSingleAppt = React.createClass({
       pay: Meteor.user().profile.pay,
     };
   },
-  initializeStateVars: function() {
-    var appt = Appts.findOne({_id: StateVars.findOne({user: Meteor.user().username}).editID});
-    this.setState({student: appt.student, hours: appt.hours, ap: appt.ap, phd: appt.phd, travel: appt.travel});
-  },
   enterAppt: function() {
     tutor = Meteor.user().username;
     date = document.getElementById("dateEdit").value;
@@ -46,7 +43,7 @@ EditSingleAppt = React.createClass({
     phd = this.state.phd;
     notes = document.getElementById("notesEdit").value;
     comments = document.getElementById("commentsEdit").value;
-    Meteor.call("editApptTutor", this.data.editID, tutor, this.state.student, date, subject, hours, travel, ap, phd, notes, comments);
+    Meteor.call("editApptTutor", this.data.editID, tutor, this.state.student, date, subject, hours, travel, ap, phd, cancel, notes, comments);
     this.exit();
   },
   exit: function() {
@@ -73,6 +70,9 @@ EditSingleAppt = React.createClass({
   handlePHD: function(event) {
     this.setState({phd: event.target.checked})
   },
+  handleCancel: function(event) {
+    this.setState({cancel: event.target.value});
+  },
   deleteAppt: function() {
     if (window.confirm("Are you sure you want to delete this appointment?")) { 
       Meteor.call("deleteAppt", this.data.editID);
@@ -82,7 +82,8 @@ EditSingleAppt = React.createClass({
   render: function() {
     var appt = this.data.thisAppt;
     var pay = this.data.pay;
-    var totalPay = (pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0);
+    var cancel = (this.state.cancel === "B" || this.data.numA > 1 || this.state.cancel === "kept")? 1:0;
+    var totalPay = cancel((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
     return (
       <div>
         <h1>Edit Appointment</h1>
@@ -108,6 +109,14 @@ EditSingleAppt = React.createClass({
         <p>Travel <input id="travelEdit" type="checkbox" checked={this.state.travel} onChange={this.handleTravel}/></p>
         <p>AP <input id="apEdit" type="checkbox" checked={this.state.ap} onChange={this.handleAP}/></p>
         <p>PhD <input id="phdEdit" type="checkbox" checked={this.state.phd} onChange={this.handlePHD}/></p>
+        <p>Cancellation <select id="cancel" defaultValue={appt.cancel} onChange={this.handleCancel}>
+            <option value="kept">Appointment kept</option>
+            <option value="A">A) 24 Hours notice given. Two per semester at no charge</option>
+            <option value="B">B) 24 Hours notice not given or failed appointment</option>
+            <option value="C">C) Sudden or severe illness</option>
+            <option value="D">D) School Vacation</option>
+          </select>
+        </p>
         <p>Pay: ${totalPay.toFixed(2)}</p>
         <p>Notes:<br/><textarea id="notesEdit" defaultValue={appt.notes}/></p>
         <p>Comments:<br/><textarea id="commentsEdit" defaultValue={appt.comments}/></p>
