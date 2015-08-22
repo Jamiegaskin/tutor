@@ -28,9 +28,39 @@ NavElem = React.createClass({
   },
 	render: function() {
 		return (
-			<li role="presentation">
+			<li role="presentation" className="nav-elem">
 				<a href="#" data-nav={this.props.nav} onClick={this.select}>{MODE_NAMES[this.props.nav]}</a>
 			</li>
+		);
+	}
+});
+
+NavSection = React.createClass({
+	mixins: [ReactMeteorData],
+	getMeteorData: function() {
+		var currentUser = Meteor.user().username;
+    return {
+      session: StateVars.findOne({user: currentUser})
+    };
+	},
+	select: function() {
+		Meteor.call('setNav', this.props.name);
+	},
+	render: function() {
+		var shown = this.data.session.nav === this.props.name || this.props.name === "default";
+		var titleDisplay = this.props.name !== "default" ? "" : "gone";
+		var menuDisplay = shown ? "" : "gone";
+		return (
+			<nav className="">
+				<h4 className={titleDisplay}>
+					<a href="#" onClick={this.select}>
+						{NAV_SECTION_NAMES[this.props.name]}
+					</a>
+				</h4>
+				<ul className={"nav nav-pills nav-stacked " + menuDisplay}>
+					{this.props.children}
+				</ul>
+			</nav>
 		);
 	}
 });
@@ -45,15 +75,13 @@ NavSidebarTutor = React.createClass({
     var username = this.data.username;
 		return (
       <div className="">
-        <span>{username}</span>
-        <nav className="">
-          <ul className="nav nav-pills nav-stacked">
+        <h2>{username}</h2>
+        <NavSection name="default">
 						<NavElem nav="addAppt"/>
 						<NavElem nav="apptView"/>
 						<NavElem nav="editPass"/>
 						<NavElem nav="logout"/>
-          </ul>
-        </nav>
+        </NavSection>
       </div>
 		);
 	}
@@ -69,29 +97,35 @@ NavSidebarMaster = React.createClass({
     var username = this.data.username;
 		return (
       <div className="">
-        <span>{username}</span>
-        <nav className="">
-          <ul className="nav nav-pills nav-stacked">
-						<NavElem nav="addAppt" />
-						<NavElem nav="apptView"/>
+        <h2>{username}</h2>
+				<NavSection name="tutors">
+						<NavElem nav="addTutor"/>
+						<NavElem nav="manageTutors"/>
 						<NavElem nav="addPay"/>
 						<NavElem nav="addPayExtra"/>
 						<NavElem nav="managePayExtra"/>
-						<NavElem nav="addBillExtra"/>
-						<NavElem nav="manageBillExtra"/>
-						<NavElem nav="addRate"/>
-						<NavElem nav="manageRates"/>
-						<NavElem nav="addClient"/>
-						<NavElem nav="manageClients"/>
-						<NavElem nav="addTutor"/>
-						<NavElem nav="manageTutors"/>
-						<NavElem nav="manageBillAdjustments"/>
+				</NavSection>
+				<NavSection name="cycles">
 						<NavElem nav="addCycle"/>
 						<NavElem nav="manageCycles"/>
+				</NavSection>
+				<hr/>
+       	<NavSection name="default">
+						<NavElem nav="addAppt" />
+						<NavElem nav="apptView"/>
+
+						<NavElem nav="addBillExtra"/>
+						<NavElem nav="manageBillExtra"/>
+
+						<NavElem nav="addClient"/>
+						<NavElem nav="manageClients"/>
+						<NavElem nav="addRate"/>
+						<NavElem nav="manageRates"/>
+
+						<NavElem nav="manageBillAdjustments"/>
 						<NavElem nav="editPass"/>
 						<NavElem nav="logout"/>
-          </ul>
-        </nav>
+        </NavSection>
       </div>
 		);
 	}

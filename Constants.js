@@ -18,4 +18,9 @@ MODE_NAMES = {
   manageCycles: "Manage Billing Cycles",
   editPass: "Edit Password",
   logout: "Log Out",
-}
+};
+
+NAV_SECTION_NAMES = {
+  "cycles": "Manage Cycles",
+  "tutors": "Manage Tutors",
+};

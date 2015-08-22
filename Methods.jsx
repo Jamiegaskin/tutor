@@ -77,6 +77,9 @@ Meteor.methods({
 	setMode: function(mode) {
 		StateVars.update({user: Meteor.user().username}, {$set: {mode: mode}});
 	},
+	setNav: function(nav) {
+		StateVars.update({user: Meteor.user().username}, {$set: {nav: nav}});
+	},
 	setModeAndEditID: function(mode, editID) {
 		StateVars.update({user: Meteor.user().username}, {$set: {mode: mode, editID: editID}});
 	},
