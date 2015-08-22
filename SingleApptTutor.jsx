@@ -21,7 +21,7 @@ SingleApptTutor = React.createClass({
                               PhD: {appt.phd? "Yes":"No"},
                               Pay: ${appt.pay},
                               Cancel: {appt.cancel},
-                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>,
+                              <button className="btn btn-default btn-raised" onClick={this.enterEditMode}>Edit</button>,
           </li>;
   }
 });
