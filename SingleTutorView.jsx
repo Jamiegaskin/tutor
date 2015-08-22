@@ -20,7 +20,7 @@ SingleTutorView = React.createClass({
                               PhD extra: ${tutor.profile.pay.phd},
                               Travel extra: ${tutor.profile.pay.travel},
                               Master: {tutor.profile.master? "Yes":"No"},
-                              <button onClick={this.enterEditMode}>Edit</button>
+                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
           </li>;
   }
 });

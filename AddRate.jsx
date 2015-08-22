@@ -41,8 +41,8 @@ AddRate = React.createClass({
           </input>
         </p>
         <p>$<input id="rateEdit" type="text" placeholder="Hourly Rate"/></p>
-        <p><button onClick={this.exit}>cancel</button>
-          <button onClick={this.addRate}>submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-default" onClick={this.addRate}>submit</button></p>
 
       </div>);
   }

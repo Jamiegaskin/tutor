@@ -50,8 +50,8 @@ AddPayExtra = React.createClass({
         </p> 
         <p><input id="occasion" type="text" placeholder="Occasion"/></p>
         <p>$<input id="amount" type="text" placeholder="Amount"/></p>
-        <p><button onClick={this.exit}>cancel</button>
-          <button onClick={this.addPayExtra}>submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-default" onClick={this.addPayExtra}>submit</button></p>
       </div>);
   }
 });

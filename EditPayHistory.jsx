@@ -46,8 +46,8 @@ EditPayHistory = React.createClass({
                            Delete <input id={deleteEdit} type="checkbox" /></li>;
               })}
             </ul>
-            <button onClick={this.editPayHistory}>Submit</button>
-            <button onClick={this.exit}>Done</button>
+            <button className="btn btn-default" onClick={this.editPayHistory}>Submit</button>
+            <button className="btn btn-default" onClick={this.exit}>Done</button>
           </div>;
   }
 });

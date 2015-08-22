@@ -24,8 +24,8 @@ PayHistory = React.createClass({
                 return <li>Date: {check.date}, Number: {check.checkNum}, Amount: ${check.amount}</li>
               })}
             </ul>
-            <button onClick={this.enterEditMode}>Edit</button>
-            <button onClick={this.exit}>Done</button>
+            <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
+            <button className="btn btn-default" onClick={this.exit}>Done</button>
           </div>;
   }
 });

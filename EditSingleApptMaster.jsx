@@ -79,9 +79,9 @@ EditSingleApptMaster = React.createClass({
         <p>Pay: $<input id="payEdit" type="text" defaultValue={appt.pay} /></p>
         <p>Notes: <br/><textarea id="notesEdit" defaultValue={appt.notes} /></p>
         <p>Comments: <br/><textarea id="commentsEdit" type="text" defaultValue={appt.comments} /></p>
-        <p><button onClick={this.exit}>Cancel</button>
-          <button onClick={this.deleteAppt}>Delete</button>
-          <button onClick={this.editAppt}>Submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>Cancel</button>
+          <button className="btn btn-default" onClick={this.deleteAppt}>Delete</button>
+          <button className="btn btn-default" onClick={this.editAppt}>Submit</button></p>
       </div>);
   }
 });

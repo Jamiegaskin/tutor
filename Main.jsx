@@ -18,7 +18,7 @@ if (Meteor.isClient) {
             Meteor.logout();
         }
         */
-    React.render(<Test />, document.getElementById("test"));
+    //React.render(<Test />, document.getElementById("test"));
   });
 };
 
@@ -46,8 +46,8 @@ var Test = React.createClass({
     };
     */
     return (<div>
-              //<iframe height="1650" width="1275" src={BillDataURL}></iframe>;
-              <button onClick={this.emailTest}>EMAIL!</button>
+              <iframe height="1650" width="1275" src={BillDataURL}></iframe>
+              <button className="btn btn-default" onClick={this.emailTest}>EMAIL!</button>
             </div>)
   }
 });

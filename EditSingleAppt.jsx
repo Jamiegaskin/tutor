@@ -111,9 +111,9 @@ EditSingleAppt = React.createClass({
         <p>Pay: ${totalPay.toFixed(2)}</p>
         <p>Notes:<br/><textarea id="notesEdit" defaultValue={appt.notes}/></p>
         <p>Comments:<br/><textarea id="commentsEdit" defaultValue={appt.comments}/></p>
-        <p><button onClick={this.exit}>cancel</button>
-          <button onClick={this.deleteAppt}>Delete</button>
-          <button onClick={this.enterAppt}>submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-default" onClick={this.deleteAppt}>Delete</button>
+          <button className="btn btn-default" onClick={this.enterAppt}>submit</button></p>
 
       </div>);
   }

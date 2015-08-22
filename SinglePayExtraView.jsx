@@ -56,16 +56,16 @@ SinglePayExtraView = React.createClass({
                   </datalist>, 
               Occasion: <input id="occasion" type="text" defaultValue={extra.occasion}/>, 
               Amount: $<input id="amount" type="text" defaultValue={extra.amount}/> 
-              <button onClick={this.editExtra}>Submit</button> 
-              <button onClick={this.delete}>Delete</button>
-              <button onClick={this.exitEdit}>Cancel</button> 
+              <button className="btn btn-default" onClick={this.editExtra}>Submit</button> 
+              <button className="btn btn-default" onClick={this.delete}>Delete</button>
+              <button className="btn btn-default" onClick={this.exitEdit}>Cancel</button> 
             </li>;
     } else {
       return <li key={extra._id}>Tutor: {tutor}, 
                                 Cycle: {cycle}, 
                                 Occasion: {extra.occasion}, 
                                 Amount: ${extra.amount} 
-                                <button onClick={this.enterEdit}>Edit</button> 
+                                <button className="btn btn-default" onClick={this.enterEdit}>Edit</button> 
             </li>;
     }
   }

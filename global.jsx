@@ -5,7 +5,7 @@ Global = React.createClass({
   },
   render: function() {
     if (!this.data.user) { // show login if no user
-      return <Login />; 
+      return <Login />;
     }
     else { // if user logged in
       if (Meteor.user().profile.master) { // enter master view
@@ -16,8 +16,7 @@ Global = React.createClass({
       }
       return (
         <div>
-          <MonitorState />
-          {view}
+          <Body view={view} />
         </div>
       );
     }

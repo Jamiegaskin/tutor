@@ -14,7 +14,7 @@ SingleRateView = React.createClass({
     return <li key={rate._id}>Tutor: {rate.tutor},
                               Client: {rate.parents},
                               Rate: ${rate.rate} 
-                              <button onClick={this.enterEditMode}>Edit</button>
+                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
           </li>;
   }
 });

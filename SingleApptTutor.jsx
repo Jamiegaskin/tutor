@@ -19,7 +19,7 @@ SingleApptTutor = React.createClass({
                               AP: {appt.ap? "Yes":"No"},
                               PhD: {appt.phd? "Yes":"No"},
                               Pay: {appt.pay}
-                              <button onClick={this.enterEditMode}>Edit</button>
+                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
           </li>;
   }
 });

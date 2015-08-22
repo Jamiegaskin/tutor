@@ -46,8 +46,8 @@ EditPass = React.createClass({
         <p><input id="oldPass" type="password" placeholder="Old password" /></p>
         <p><input id="passEdit1" type="password" placeholder="New password" /></p>
         <p><input id="passEdit2" type="password" placeholder="Confirm new password" /></p>
-        <p><button onClick={this.exit}>cancel</button>
-          <button onClick={this.updatePass}>update</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-default" onClick={this.updatePass}>update</button></p>
       </div>
       );
   }

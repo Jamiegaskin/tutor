@@ -36,7 +36,7 @@ AddApptMaster = React.createClass({
   },
   enterAppt: function() {
     var tutor = document.getElementById("tutorEdit").value;
-    var student = document.getElementById("clientEdit").value; 
+    var student = document.getElementById("clientEdit").value;
     var clientID = Clients.findOne({students: student})._id;
     var date = document.getElementById("dateEdit").value;
     var subject = document.getElementById("subjectEdit").value;
@@ -104,7 +104,7 @@ AddApptMaster = React.createClass({
                 return <option value={student}/>
               })}
             </datalist>
-        </p> 
+        </p>
         <p>Date <input id="dateEdit" type="date" defaultValue={this.getToday()} /></p>
         <p><input id="subjectEdit" type="text" placeholder="Subject" /></p>
         <p>Hours <select id="hoursEdit" defaultValue="1" onChange={this.handleHours}>
@@ -131,8 +131,8 @@ AddApptMaster = React.createClass({
         <p>Pay: ${totalPay.toFixed(2)}</p>
         <p><textarea id="notesEdit" placeholder="Notes"/></p>
         <p><textarea id="commentsEdit" placeholder="Comments"/></p>
-        <p><button onClick={this.exit}>cancel</button>
-          <button onClick={this.enterAppt}>submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-default" onClick={this.enterAppt}>submit</button></p>
 
       </div>);
   }

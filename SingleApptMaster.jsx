@@ -21,7 +21,7 @@ SingleApptMaster = React.createClass({
                               PhD: {appt.phd? "Yes":"No"},
                               Bill: ${appt.bill},
                               Pay: ${appt.pay}
-                              <button onClick={this.enterEditMode}>Edit</button>
+                              <button className="btn btn-default" onClick={this.enterEditMode}>Edit</button>
           </li>;
   }
 });

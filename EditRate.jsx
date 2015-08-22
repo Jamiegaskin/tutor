@@ -49,9 +49,9 @@ EditRate = React.createClass({
           </input>
         </p>
         <p>Rate: $<input id="rateEdit" type="text" defaultValue={rate.rate} /></p>
-        <p><button onClick={this.exit}>Cancel</button>
-           <button onClick={this.deleteRate}>Delete</button>
-           <button onClick={this.editRate}>Submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>Cancel</button>
+           <button className="btn btn-default" onClick={this.deleteRate}>Delete</button>
+           <button className="btn btn-default" onClick={this.editRate}>Submit</button></p>
 
       </div>);
   }
