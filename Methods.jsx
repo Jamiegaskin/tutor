@@ -127,23 +127,31 @@ Meteor.methods({
 		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
 		var extras = BillExtras.find({clientID: client._id, cycleID: cycle._id}).fetch()
 		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
-			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras})
+			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false})
 		} else {
-			Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras})
+			Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false})
 		}
+	},
+	approveAndSendBill: function(id) {
+		// TODO hook up email service
+		Bills.update({_id: id}, {$set: {sent: true}})
 	},
 	generatePayStub: function(tutor, cycle) {
 		var apptList = Appts.find({tutor: tutor, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
 		var extras = PayExtras.find({tutorID: tutor._id, cycleID: cycle._id}).fetch()
 		if (PayStubs.findOne({tutor: tutor, "cycle._id": cycle._id})) {
-			PayStubs.update({tutor: tutor, "cycle._id": cycle._id}, {tutor: tutor, cycle: cycle, apptList: apptList, extras: extras})
+			PayStubs.update({tutor: tutor, "cycle._id": cycle._id}, {tutor: tutor, cycle: cycle, apptList: apptList, extras: extras, sent: false})
 		} else {
-			PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras})
+			PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras, sent: false})
 		}
 	},
 	printBill: function(billId) {
 		if (Meteor.isServer) {
 			createPDF({});
 		}
+	},
+	approveAndSendPayStub: function(id) {
+		// TODO hook up email service
+		PayStubs.update({_id: id}, {$set: {sent: true}})
 	},
 })

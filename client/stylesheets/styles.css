@@ -26,6 +26,10 @@ hr {
   display: none;
 }
 
+.fifty {
+  transform: scale(0.5, 0.5);
+}
+
 .wrapper, .row {
    height: 100%;
    margin-left:0;

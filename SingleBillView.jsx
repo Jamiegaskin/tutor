@@ -10,7 +10,7 @@ SingleBillView = React.createClass({
   },
   render: function() {
     var rate = this.data.thisRate;
-    return <li key={rate._id}>Tutor: {rate.tutor},
+    return <li key={rate._id}>{bill.sent? "approved and sent":"awaiting approval"},
                               Client: {rate.parents},
                               Rate: ${rate.rate} 
                               <button className="btn btn-default btn-raised" onClick={this.enterEditMode}>Edit</button>
