@@ -6,6 +6,7 @@ Login = React.createClass({
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     Meteor.loginWithPassword(username, password, this.failedLogin);
+    Meteor.call("setMode", "addAppt");
   },
   failedLogin: function(error) {
     if (error) {

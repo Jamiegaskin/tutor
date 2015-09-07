@@ -2,6 +2,14 @@
   "dependencies": {
     "hummus": {
       "version": "1.0.41"
+    },
+    "mkdirp": {
+      "version": "0.5.1",
+      "dependencies": {
+        "minimist": {
+          "version": "0.0.8"
+        }
+      }
     }
   }
 }

@@ -21,8 +21,8 @@ EditClient = React.createClass({
     var motherCell = document.getElementById("motherCell").value;
     var fatherCell = document.getElementById("fatherCell").value;
     var studentCell = document.getElementById("studentCell").value;
-    var previousBalance = document.getElementById("previousBalanceEdit").value;
-    var currentBalance = document.getElementById("balanceEdit").value;
+    var previousBalance = parseFloat(document.getElementById("previousBalanceEdit").value);
+    var currentBalance = parseFloat(document.getElementById("balanceEdit").value);
     var active = document.getElementById("active").checked;
     Meteor.call("editClient", this.data.clientID, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, currentBalance, active)
     this.exit();

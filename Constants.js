@@ -16,6 +16,8 @@ MODE_NAMES = {
   manageBillAdjustments: "Manage Billing Adjustments",
   addCycle: "Add Billing Cycle",
   manageCycles: "Manage Billing Cycles",
+  cyclesForBilling: "View and Approve Bills",
+  cyclesForPaying: "View and Approve Pay Stubs",
   editPass: "Edit Password",
   logout: "Log Out",
 };

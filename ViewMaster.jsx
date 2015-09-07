@@ -78,6 +78,30 @@ ViewMaster = React.createClass({
     else if (mode === "manageBillExtra") {
       body = <BillExtraList />;
     }
+    else if (mode === "cyclesForBilling") {
+      body = <CyclesForBilling />;
+    }
+    else if (mode === "reviewBill") {
+      body = <SingleBillReview />;
+    }
+    else if (mode === "singleCycleForBilling") {
+      body = <SingleCycleForBilling />;
+    }
+    else if (mode === "cycleBillList") {
+      body = <CycleBillList />;
+    }
+    else if (mode === "cyclesForPaying") {
+      body = <CyclesForPaying />;
+    }
+    else if (mode === "reviewPay") {
+      body = <SinglePayReview />;
+    }
+    else if (mode === "singleCycleForPaying") {
+      body = <SingleCycleForPaying />;
+    }
+    else if (mode === "cyclePayList") {
+      body = <CyclePayList />;
+    }
     return (
       <div>
         {body}

@@ -29,8 +29,7 @@ AddPayExtra = React.createClass({
     var today = this.getToday();
     var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}}).name;
     return (
-      <div>
-        
+      <div>  
         <p>Tutor <select id="tutorEdit">
             {this.data.users.map(function(tutor) {
               if(tutor.profile.status === "Admin") {
@@ -50,8 +49,8 @@ AddPayExtra = React.createClass({
         </p> 
         <p><input id="occasion" type="text" placeholder="Occasion"/></p>
         <p>$<input id="amount" type="text" placeholder="Amount"/></p>
-        <p><button className="btn btn-raised btn-default" onClick={this.exit}>cancel</button>
-          <button className="btn btn-raised btn-primary" onClick={this.addPayExtra}>Submit</button></p>
+        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-default" onClick={this.addPayExtra}>submit</button></p>
       </div>);
   }
 });

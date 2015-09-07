@@ -28,7 +28,7 @@ Meteor.methods({
 		Appts.insert({tutor: tutor, clientID: clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, adjustments: adjustments, payInfo: payInfo, baseRate: billBase, cancel: cancel});
 	},
 	editAppt: function(id, tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, bill, pay, notes, comments) {
-		Appts.update({_id: id}, {$set: {tutor: tutor, clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, cancel: cancel}});
+		Appts.update({_id: id}, {$set: {tutor: tutor, clientID:clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, cancel: cancel}});
 	},
 	editApptTutor: function(id, tutor, clientID, student, date, subject, hours, travel, ap, phd, cancel, notes, comments) {
 		var appt = Appts.findOne({_id: id});
@@ -37,7 +37,7 @@ Meteor.methods({
 		var billBase = appt.baseRate;
 		var bill = (billBase + (ap? adjustments.ap:0))*hours + (travel? adjustments.travel:0);
 		var pay = (payInfo.base + (ap? payInfo.ap:0) + (phd? payInfo.phd:0))*hours + (travel? payInfo.travel:0);
-		Appts.update({_id: id}, {$set: {tutor: tutor, clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, cancel: cancel}});
+		Appts.update({_id: id}, {$set: {tutor: tutor, clientID: clientID, student: student, date: date, subject: subject, hours: hours, travel: travel, ap: ap, phd: phd, notes: notes, comments: comments, bill: bill, pay: pay, cancel: cancel}});
 	},
 	deleteAppt: function(id) {
 		Appts.remove({_id: id});
@@ -66,7 +66,7 @@ Meteor.methods({
 	},
 	addPayment: function(client, checkNum, amount, date) {
 		var payHistory = Clients.findOne({parents: client}).payHistory;
-		payHistory.push({checkNum: checkNum, amount: amount, date, date});
+		payHistory.push({checkNum: checkNum, amount: amount, date: date});
 		Clients.update({parents: client}, {$set: {payHistory: payHistory}})
 	},
 	updatePayHistory: function(client, paymentsArray) {
@@ -122,36 +122,63 @@ Meteor.methods({
 		BillExtras.remove({_id: id});
 	},
 
-	// Generate (or regenerate) bills and pay stubs
+	// Generate (or regenerate) bills
+	generateCycleBills: function(cycle) {
+	    Clients.find().map(function(client) {
+	      var thisBill = Bills.findOne({"cycle._id": cycle._id, "client._id": client._id});
+	      if (!thisBill || !thisBill.sent) {
+	        Meteor.call("generateBill", client, cycle);
+	      }
+	    })
+	},
 	generateBill: function(client, cycle) {
-		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
+		console.log("calling generate bill with" + client.parents)
+		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}, {sort:{date: 1}}).fetch();
 		var extras = BillExtras.find({clientID: client._id, cycleID: cycle._id}).fetch()
 		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
-			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false})
+			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false});
+			createBillPDF(Bills.findOne({"client._id": client._id, "cycle._id": cycle._id}));
 		} else {
-			Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false})
+			var bill = Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false});
+			createBillPDF(Bills.findOne(bill));
 		}
 	},
 	approveAndSendBill: function(id) {
 		// TODO hook up email service
 		Bills.update({_id: id}, {$set: {sent: true}})
 	},
+
+	// Generate (or regenerate) Pay Stubs
+	generateCyclePays: function(cycle) {
+	    Meteor.users.find().map(function(tutor) {
+	      if (tutor.profile.status === "Admin") {
+	      	return
+	      }
+	      var thisPayStub = PayStubs.findOne({"cycle._id": cycle._id, "tutor._id": tutor._id});
+	      if (!thisPayStub || !thisPayStub.sent) {
+	        Meteor.call("generatePayStub", tutor, cycle);
+	      }
+	    })
+	},
 	generatePayStub: function(tutor, cycle) {
-		var apptList = Appts.find({tutor: tutor, date:{$gt: cycle.start, $lt: cycle.end}}).fetch();
+		var apptList = Appts.find({tutor: tutor, date:{$gt: cycle.start, $lt: cycle.end}}, {sort:{date: 1}}).fetch();
 		var extras = PayExtras.find({tutorID: tutor._id, cycleID: cycle._id}).fetch()
 		if (PayStubs.findOne({tutor: tutor, "cycle._id": cycle._id})) {
 			PayStubs.update({tutor: tutor, "cycle._id": cycle._id}, {tutor: tutor, cycle: cycle, apptList: apptList, extras: extras, sent: false})
+			createPayStubPDF(PayStubs.findOne({tutor: tutor, "cycle._id": cycle._id}));
 		} else {
-			PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras, sent: false})
+			var thisPayStub = PayStubs.insert({tutor: tutor, cycle: cycle, apptList: apptList, extras: extras, sent: false})
+			createPayStubPDF(PayStubs.findOne(thisPayStub))
 		}
 	},
-	printBill: function(billId) {
+	printBill: function(data) {
 		if (Meteor.isServer) {
-			createPDF({});
+			createPDF(data);
 		}
 	},
 	approveAndSendPayStub: function(id) {
 		// TODO hook up email service
 		PayStubs.update({_id: id}, {$set: {sent: true}})
 	},
+
 })

@@ -123,6 +123,8 @@ NavSidebarMaster = React.createClass({
 						<NavElem nav="manageRates"/>
 
 						<NavElem nav="manageBillAdjustments"/>
+						<NavElem nav="cyclesForBilling"/>
+						<NavElem nav="cyclesForPaying"/>
 						<NavElem nav="editPass"/>
 						<NavElem nav="logout"/>
         </NavSection>

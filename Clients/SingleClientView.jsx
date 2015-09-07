@@ -1,9 +1,17 @@
 SingleClientView = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData: function() {
+    var today = this.getToday();
     return {
+      thisCycle: Cycles.findOne({start: {$lt: today}, end: {$gt: today}}),
       thisClient: Clients.findOne({_id: this.props.thisID}),
     };
+  },
+  getToday: function() {
+    var today = new Date();
+    var todayAdjust = new Date(today.getTime() - today.getTimezoneOffset()*60000);
+    var todayStr = todayAdjust.toISOString().substr(0,10);
+    return todayStr;
   },
   enterEditMode: function() {
     var currentUserID = StateVars.findOne({user: Meteor.user().username})._id;
@@ -15,8 +23,11 @@ SingleClientView = React.createClass({
   },
   paidThisCycle: function(client) {
     var sum = 0;
+    var cycle = this.data.thisCycle;
     this.data.thisClient.payHistory.map(function(check) {
-      sum += check.amount;
+      if (check.date < cycle.end && check.date > cycle.start) {
+        sum += check.amount;
+      }
     })
     return sum;
   },
