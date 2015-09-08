@@ -33,20 +33,20 @@ SingleClientView = React.createClass({
   },
   render: function() {
     var client = this.data.thisClient;
-    return <li key={client._id}>Parent(s): {client.parents},
-                              Students: {client.students.join(", ")},
-                              Emails: {client.emails.join(", ")},
-                              Address: {client.address1 + ", " + client.address2},
-                              Home Phone: {client.phoneNums.home}, 
-                              Mother's Cell: {client.phoneNums.motherCell}, 
-                              Father's Cell: {client.phoneNums.fatherCell}, 
-                              Student's Cells: {client.phoneNums.studentCell.join(", ")}, 
-                              Previous Balance: ${client.previousBalance},
-                              Paid this cycle: ${this.paidThisCycle(client)},
-                              Current Balance: ${client.balance},
-                              Active: {client.active? "yes":"no"}
-                              <button className="btn btn-raised btn-default" onClick={this.enterEditMode}>Edit</button>
-                              <button className="btn btn-raised btn-default" onClick={this.enterPayHistoryMode}>View Pay History</button>
-          </li>;
+    return <tr key={client._id}><td>{client.parents}</td>
+                              <td>{client.students.join(", ")}</td>
+                              <td>{client.emails.join(", ")}</td>
+                              <td>{client.address1 + ", " + client.address2}</td>
+                              <td>{client.phoneNums.home}</td>
+                              <td>{client.phoneNums.motherCell}</td> 
+                              <td>{client.phoneNums.fatherCell}</td>
+                              <td>{client.phoneNums.studentCell.join(", ")}</td>
+                              <td>${client.previousBalance}</td>
+                              <td>${this.paidThisCycle(client)}</td>
+                              <td>${client.balance}</td>
+                              <td>{client.active? "yes":"no"}</td>
+                              <td><button className="btn btn-raised btn-default" onClick={this.enterEditMode}>Edit</button></td>
+                              <td><button className="btn btn-raised btn-default" onClick={this.enterPayHistoryMode}>View Pay History</button></td>
+          </tr>;
   }
 });

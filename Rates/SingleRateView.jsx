@@ -10,10 +10,10 @@ SingleRateView = React.createClass({
   },
   render: function() {
     var rate = this.data.thisRate;
-    return <li key={rate._id}>Tutor: {rate.tutor},
-                              Client: {rate.parents},
-                              Rate: ${rate.rate} 
-                              <button className="btn btn-raised btn-default" onClick={this.enterEditMode}>Edit</button>
-          </li>;
+    return <tr key={rate._id}><td>{rate.tutor}</td>
+                              <td>{rate.parents}</td>
+                              <td>${rate.rate}</td>
+                              <td><button className="btn btn-raised btn-default" onClick={this.enterEditMode}>Edit</button></td>
+          </tr>;
   }
 });

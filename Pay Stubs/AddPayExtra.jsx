@@ -27,7 +27,8 @@ AddPayExtra = React.createClass({
   },
   render: function() {
     var today = this.getToday();
-    var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}}).name;
+    var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}});
+    var cycleName = currentCycle? currentCycle.name:"No cycle found for current date.";
     return (
       <div>  
         <p>Tutor <select id="tutorEdit">
