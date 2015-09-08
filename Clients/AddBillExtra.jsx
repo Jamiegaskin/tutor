@@ -27,7 +27,8 @@ AddBillExtra = React.createClass({
   },
   render: function() {
     var today = this.getToday();
-    var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}}).name;
+    var currentCycle = Cycles.findOne({start: {$lt: today}, end: {$gt: today}});
+    var cycleName = currentCycle? currentCycle.name:"No cycle found for current date.";
     return (
       <div>
         
@@ -39,7 +40,7 @@ AddBillExtra = React.createClass({
             </datalist>
           </input>
         </p> 
-         <p>Cycle <input id="cycle" list="cycleList" defaultValue={currentCycle}>
+         <p>Cycle <input id="cycle" list="cycleList" defaultValue={cycleName}>
             <datalist id="cycleList">
               {this.data.cycles.map(function(cycle) {
                 return <option value={cycle.name}/>

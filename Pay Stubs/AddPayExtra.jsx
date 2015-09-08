@@ -40,7 +40,7 @@ AddPayExtra = React.createClass({
             })}
           </select>
         </p>
-         <p>Cycle <input id="cycle" list="cycleList" defaultValue={currentCycle}>
+         <p>Cycle <input id="cycle" list="cycleList" defaultValue={cycleName}>
             <datalist id="cycleList">
               {this.data.cycles.map(function(cycle) {
                 return <option value={cycle.name}/>
@@ -50,8 +50,8 @@ AddPayExtra = React.createClass({
         </p> 
         <p><input id="occasion" type="text" placeholder="Occasion"/></p>
         <p>$<input id="amount" type="text" placeholder="Amount"/></p>
-        <p><button className="btn btn-default" onClick={this.exit}>cancel</button>
-          <button className="btn btn-default" onClick={this.addPayExtra}>submit</button></p>
+        <p><button className="btn btn-raised btn-default" onClick={this.exit}>cancel</button>
+          <button className="btn btn-raised btn-default" onClick={this.addPayExtra}>submit</button></p>
       </div>);
   }
 });
