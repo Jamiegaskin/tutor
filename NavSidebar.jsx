@@ -98,33 +98,40 @@ NavSidebarMaster = React.createClass({
 		return (
       <div className="">
         <h2>{username}</h2>
+        		<NavSection name="appts">
+        				<NavElem nav="addAppt" />
+						<NavElem nav="apptView"/>
+        		</NavSection>
 				<NavSection name="tutors">
 						<NavElem nav="addTutor"/>
 						<NavElem nav="manageTutors"/>
-						<NavElem nav="addPay"/>
-						<NavElem nav="addPayExtra"/>
-						<NavElem nav="managePayExtra"/>
+				</NavSection>
+				<NavSection name="clients">
+						<NavElem nav="addClient"/>
+						<NavElem nav="manageClients"/>
+				</NavSection>
+				<NavSection name="rates">
+						<NavElem nav="addRate"/>
+						<NavElem nav="manageRates"/>
 				</NavSection>
 				<NavSection name="cycles">
 						<NavElem nav="addCycle"/>
 						<NavElem nav="manageCycles"/>
 				</NavSection>
-				<hr/>
-       	<NavSection name="default">
-						<NavElem nav="addAppt" />
-						<NavElem nav="apptView"/>
-
+				<NavSection name="billing">
+						<NavElem nav="cyclesForBilling"/>
+						<NavElem nav="addPay"/>
 						<NavElem nav="addBillExtra"/>
 						<NavElem nav="manageBillExtra"/>
-
-						<NavElem nav="addClient"/>
-						<NavElem nav="manageClients"/>
-						<NavElem nav="addRate"/>
-						<NavElem nav="manageRates"/>
-
 						<NavElem nav="manageBillAdjustments"/>
-						<NavElem nav="cyclesForBilling"/>
+				</NavSection>
+				<NavSection name="payStubs">
 						<NavElem nav="cyclesForPaying"/>
+						<NavElem nav="addPayExtra"/>
+						<NavElem nav="managePayExtra"/>
+				</NavSection>
+				<hr/>
+       	<NavSection name="default">
 						<NavElem nav="editPass"/>
 						<NavElem nav="logout"/>
         </NavSection>

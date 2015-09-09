@@ -23,6 +23,11 @@ MODE_NAMES = {
 };
 
 NAV_SECTION_NAMES = {
-  "cycles": "Manage Cycles",
-  "tutors": "Manage Tutors",
+  "cycles": "Billing Cycles",
+  "tutors": "Tutors",
+  "appts": "Appointments",
+  "clients": "Clients",
+  "billing": "Billing",
+  "payStubs": "Tutor Pay",
+  "rates": "Tutor/Client Rates"
 };
