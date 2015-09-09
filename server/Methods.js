@@ -139,7 +139,7 @@ Meteor.methods({
 		var extras = BillExtras.find({clientID: client._id, cycleID: cycle._id}).fetch()
 		var aCancels = getNumACancels();
 		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
-			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false, aCancels, aCancels});
+			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false, aCancels: aCancels});
 			createBillPDF(Bills.findOne({"client._id": client._id, "cycle._id": cycle._id}));
 		} else {
 			var bill = Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false, aCancels: aCancels});
