@@ -5,8 +5,10 @@ Meteor.methods({
 
 	// Tutor methods
 	addTutor: function(name, email, status, master, pay, ap, phd, travel) {
-		Accounts.createUser({username: name, email: email, password: "pass", profile:{status: status, master: master, pay: {base: pay, ap: ap, phd: phd, travel: travel}}});
-		StateVars.insert({user: name, mode: "addAppt", editID: ""});
+		if (Meteor.user().profile.master) {
+			Accounts.createUser({username: name, email: email, password: "pass", profile:{status: status, master: master, pay: {base: pay, ap: ap, phd: phd, travel: travel}}});
+			StateVars.insert({user: name, mode: "addAppt", editID: ""});
+		}
 	},
 	editTutor: function(id, name, email, status, master, pay, ap, phd, travel) {
 		if (Meteor.user().profile.master) {
@@ -135,11 +137,12 @@ Meteor.methods({
 		console.log("calling generate bill with" + client.parents)
 		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}, {sort:{date: 1}}).fetch();
 		var extras = BillExtras.find({clientID: client._id, cycleID: cycle._id}).fetch()
+		var aCancels = getNumACancels();
 		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
-			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false});
+			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false, aCancels, aCancels});
 			createBillPDF(Bills.findOne({"client._id": client._id, "cycle._id": cycle._id}));
 		} else {
-			var bill = Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false});
+			var bill = Bills.insert({client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false, aCancels: aCancels});
 			createBillPDF(Bills.findOne(bill));
 		}
 	},
