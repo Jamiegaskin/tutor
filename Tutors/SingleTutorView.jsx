@@ -12,15 +12,15 @@ SingleTutorView = React.createClass({
   },
   render: function() {
     var tutor = this.data.thisTutor;
-    return <li key={tutor._id}>Tutor: {tutor.username},
-                              Email: {tutor.emails},
-                              Status: {tutor.profile.status},
-                              Pay per hour: ${tutor.profile.pay.base},
-                              AP extra: ${tutor.profile.pay.ap},
-                              PhD extra: ${tutor.profile.pay.phd},
-                              Travel extra: ${tutor.profile.pay.travel},
-                              Master: {tutor.profile.master? "Yes":"No"},
-                              <button className="btn btn-default btn-raised" onClick={this.enterEditMode}>Edit</button>
-          </li>;
+    return <tr key={tutor._id}><td>{tutor.username}</td>
+                              <td>{tutor.emails}</td>
+                              <td>{tutor.profile.status}</td>
+                              <td>${tutor.profile.pay.base}</td>
+                              <td>${tutor.profile.pay.ap}</td>
+                              <td>${tutor.profile.pay.phd}</td>
+                              <td>${tutor.profile.pay.travel}</td>
+                              <td>{tutor.profile.master? "Yes":"No"}</td>
+                              <td><button className="btn btn-default btn-raised" onClick={this.enterEditMode}>Edit</button></td>
+          </tr>;
   }
 });

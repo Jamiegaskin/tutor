@@ -10,14 +10,27 @@ TutorList = React.createClass({
 	    <div>
 	    	
 	    	<h2>Tutors</h2>
-	    	<ul>
+	        <table data-toggle="table" className="table">
+	            <thead>
+	                <tr>
+	                    <th>Tutor</th>
+	                    <th>Email</th>
+	                    <th>Status</th>
+	                    <th>Pay Per Hour</th>
+	                    <th>AP Extra</th>
+	                    <th>PhD Extra</th>
+	                    <th>Travel Extra</th>
+	                    <th>Master</th>
+	                    <th>Edit</th>
+	                </tr>
+	            </thead>
 	             {this.data.tutors.map(function(tutor){
 		      	    if (tutor.profile.status === "Admin"){
 				      return;
 				    }
 			        return <SingleTutorView key={tutor._id} thisID = {tutor._id} />;
 			      })}
-             </ul>
+             </table>
 		      <h2>Admins</h2>
 		      <ul>
 			      {this.data.tutors.map(function(tutor){
