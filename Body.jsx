@@ -17,7 +17,7 @@ Body = React.createClass({
           <div className="column col-sm-10 col-xs-11" id="main">
             <header className="navbar navbar-blue navbar-static-top">
               <span className="navbar-brand">{MODE_NAMES[this.data.session.mode]}</span>
-							<MonitorState />
+							{Meteor.user().profile.status === "Admin"? <MonitorState />:<div/>}
             </header>
             <div className="padding">
               <div className="full">

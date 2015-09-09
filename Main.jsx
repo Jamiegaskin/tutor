@@ -18,7 +18,6 @@ if (Meteor.isClient) {
             Meteor.logout();
         }
         */
-    //React.render(<Test />, document.getElementById("test"));
   });
 };
 
@@ -27,11 +26,3 @@ if (Meteor.isServer) {
     return Meteor.users.find();
   })
 }
-
-var Test = React.createClass({
-  render: function() {
-    return (<div>
-              <iframe height="825" width="638" src="/output/Jamie_August2015.pdf"></iframe>
-            </div>)
-  }
-});
