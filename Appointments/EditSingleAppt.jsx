@@ -35,6 +35,8 @@ EditSingleAppt = React.createClass({
   },
   enterAppt: function() {
     tutor = Meteor.user().username;
+    client = document.getElementById("clientEdit").value;
+    clientID = Clients.findOne({parents: client})._id
     date = document.getElementById("dateEdit").value;
     subject = document.getElementById("subjectEdit").value;
     hours = this.state.hours;
@@ -43,7 +45,7 @@ EditSingleAppt = React.createClass({
     phd = this.state.phd;
     notes = document.getElementById("notesEdit").value;
     comments = document.getElementById("commentsEdit").value;
-    Meteor.call("editApptTutor", this.data.editID, tutor, this.state.student, date, subject, hours, travel, ap, phd, cancel, notes, comments);
+    Meteor.call("editApptTutor", this.data.editID, tutor, clientID, this.state.student, date, subject, hours, travel, ap, phd, cancel, notes, comments);
     this.exit();
   },
   exit: function() {
