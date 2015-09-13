@@ -89,7 +89,7 @@ EditSingleAppt = React.createClass({
     return (
       <div>
         
-        <p>Student: <input id="clientEdit" defaultValue={appt.client} list="studentList" onChange={this.handleClient}>
+        <p>Student: <input id="clientEdit" defaultValue={appt.student} list="studentList" onChange={this.handleClient}>
             <datalist id="studentList" >
               {this.data.students.map(function(student) {
                 return <option value={student}/>
