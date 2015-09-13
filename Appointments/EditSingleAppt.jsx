@@ -83,7 +83,7 @@ EditSingleAppt = React.createClass({
     var appt = this.data.thisAppt;
     var pay = this.data.pay;
     var cancel = (this.state.cancel === "B" || this.data.numA > 1 || this.state.cancel === "kept")? 1:0;
-    var totalPay = cancel((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
+    var totalPay = cancel*((pay.base + (this.state.ap? pay.ap:0) + (this.state.phd? pay.phd:0)) * this.state.hours + (this.state.travel? pay.travel:0));
     return (
       <div>
         

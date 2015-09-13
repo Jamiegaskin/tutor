@@ -28,9 +28,10 @@ createBillPDF = function(bill) {
   writeDate(bill.cycle.end, textInfo, pageModifier);
   writeParents(bill.client.parents, textInfo, pageModifier)
   var yCoordinate = 562;
-  var billTotal = 0
+  var billTotal = 0;
+  var aCancels = 0;
   bill.apptList.map(function(appt) {
-    yCoordinate = writeAppt(appt, textInfo, pageModifier, yCoordinate);
+    yCoordinate = writeAppt(appt, textInfo, pageModifier, yCoordinate, aCancels);
     billTotal += appt.bill;
   });
   writePreviousBalance(bill.client.previousBalance, textInfo, pageModifier);
@@ -42,20 +43,6 @@ createBillPDF = function(bill) {
   // with multi-lining
   pageModifier.endContext().writePage();
   pdfWriter.end();
-};
-
-var calcLine = function(stringArray, textInfo, maxWidth) {
-  var line = "";
-  var prospectiveLine = "";
-  for (var k in stringArray) {
-    line = prospectiveLine;
-    prospectiveLine += stringArray[k] + " ";
-    var parentsTextDimensions = textInfo.font.calculateTextDimensions(prospectiveLine, textInfo.size);
-    if (parentsTextDimensions.width > maxWidth && line != "") {
-      return {line: line, nextIndex: k, end: false};
-    }
-  }
-  return {line: prospectiveLine, nextIndex: stringArray.length - 1, end: true} // shouldn't happen unless the function gets passed a one word array.
 };
 
 var paidThisCycle = function(payHistory, cycle) {
@@ -91,7 +78,7 @@ var writeParents = function(parents, textInfo, pageModifier) {
   }
 };
 
-var writeAppt = function(appt, textInfo, pageModifier, yCoordinate) {
+var writeAppt = function(appt, textInfo, pageModifier, yCoordinate, aCancels) {
   // date
   pageModifier.startContext().getContext().writeText(appt.date.substr(5), 60, yCoordinate, textInfo);
 
