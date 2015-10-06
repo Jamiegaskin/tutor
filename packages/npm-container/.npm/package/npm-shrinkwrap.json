@@ -1,5 +1,18 @@
 {
   "dependencies": {
+    "cron": {
+      "version": "1.0.9",
+      "dependencies": {
+        "moment-timezone": {
+          "version": "0.3.1",
+          "dependencies": {
+            "moment": {
+              "version": "2.10.6"
+            }
+          }
+        }
+      }
+    },
     "hummus": {
       "version": "1.0.41"
     },

@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 autopublish
 insecure
 accounts-ui
@@ -12,6 +11,23 @@ accounts-password
 react
 chipcastledotcom:jspdf
 fezvrasta:bootstrap-material-design
+
+
+lepozepo:s3
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
 meteorhacks:npm
 
 
