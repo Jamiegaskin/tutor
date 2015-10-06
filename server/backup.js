@@ -38,7 +38,7 @@ var parse = function(url) {
 
 Meteor.startup(function() {
   if (process.env.BACKUP) {
-    var job = new CronJob('0 * * * * *', function(){
+    var job = new CronJob('0 0 * * * *', function(){
       console.log('Backup started...');
       BackupDatabase();
       console.log('...backup complete');
