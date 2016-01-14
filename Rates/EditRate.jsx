@@ -11,9 +11,9 @@ EditRate = React.createClass({
     };
   },
   editRate: function() {
-    tutor = document.getElementById("tutorEdit").value;
-    rate = parseInt(document.getElementById("rateEdit").value);
-    parent = document.getElementById("parentEdit").value;
+    var tutor = document.getElementById("tutorEdit").value;
+    var rate = parseInt(document.getElementById("rateEdit").value);
+    var parent = document.getElementById("parentEdit").value;
     Meteor.call("editRate", this.data.thisRate._id, tutor, parent, rate);
     this.exit();
   },

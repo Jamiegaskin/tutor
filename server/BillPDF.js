@@ -34,8 +34,12 @@ createBillPDF = function(bill) {
     yCoordinate = writeAppt(appt, textInfo, pageModifier, yCoordinate, aCancels);
     billTotal += appt.bill;
   });
+  if (bill.client.monthly) {
+    billTotal = bill.client.monthRate;
+  }
   writePreviousBalance(bill.client.previousBalance, textInfo, pageModifier);
   writeCheck(bill, textInfo, pageModifier);
+  client.
   writeCurrentCharges(billTotal, textInfo, pageModifier);
   writeTotalDue(billTotal+bill.client.previousBalance, textInfo, pageModifier)
   // https://github.com/galkahana/HummusJS/wiki/Show-text has some

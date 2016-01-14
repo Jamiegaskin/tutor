@@ -45,6 +45,8 @@ SingleClientView = React.createClass({
                               <td>${this.paidThisCycle(client)}</td>
                               <td>${client.balance}</td>
                               <td>{client.active? "yes":"no"}</td>
+                              <td>{client.monthly? "yes":"no"}</td>
+                              <td>${client.monthRate}</td>
                               <td><button className="btn btn-raised btn-default" onClick={this.enterEditMode}>Edit</button></td>
                               <td><button className="btn btn-raised btn-default" onClick={this.enterPayHistoryMode}>View Pay History</button></td>
           </tr>;

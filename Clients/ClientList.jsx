@@ -27,6 +27,8 @@ ClientList = React.createClass({
                     <th>Paid this cycle</th>
                     <th>Current Balance</th>
                     <th>Active</th>
+                    <th>Monthly</th>
+                    <th>Monthly Rate</th>
                     <th>Edit</th>
                     <th>Pay History</th>
                 </tr>

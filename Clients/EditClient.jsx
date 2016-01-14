@@ -24,7 +24,9 @@ EditClient = React.createClass({
     var previousBalance = parseFloat(document.getElementById("previousBalanceEdit").value);
     var currentBalance = parseFloat(document.getElementById("balanceEdit").value);
     var active = document.getElementById("active").checked;
-    Meteor.call("editClient", this.data.clientID, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, currentBalance, active)
+    var monthly = document.getElementById("monthly").checked;
+    var monthlyRate = parseFloat(document.getElementById("monthlyRate").value);
+    Meteor.call("editClient", this.data.clientID, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, currentBalance, active, monthly, monthlyRate)
     this.exit();
   },
   enterPayHistory: function() {
@@ -42,6 +44,8 @@ EditClient = React.createClass({
       <div>
         <p>Parents: <input id="parentEdit" type="text" defaultValue={client.parents} /></p>
         <p>Students: <input id="studentEdit" type="text" defaultValue={client.students.join(", ")} /></p>
+        <p>Monthly <input id="monthly" type="checkbox" checked={client.monthly}/></p>
+        <p>Monthly Rate <input id="monthlyRate" type="text" defaultValue={client.monthRate}/></p>
         <p>Emails: <input id="emailEdit" type="text" defaultValue={client.emails.join(", ")} /></p>
         <p>House # and Street: <input id="address1Edit" type="text" defaultValue={client.address1} /></p>
         <p>City and State: <input id="address2Edit" type="text" defaultValue={client.address2} /></p>

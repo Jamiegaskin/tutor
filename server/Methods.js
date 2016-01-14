@@ -57,11 +57,11 @@ Meteor.methods({
 	},
 
 	// Client methods
-	addClient: function(parents, students, emails, address1, address2, home, motherCell, fatherCell, studentCell) {
-		Clients.insert({parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: 0, balance: 0, payHistory: [], active: true});
+	addClient: function(parents, students, emails, address1, address2, home, motherCell, fatherCell, studentCell, monthly, monthRate) {
+		Clients.insert({parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: 0, balance: 0, payHistory: [], active: true, monthly: monthly, monthRate: monthRate});
 	},
-	editClient: function(id, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, balance, active) {
-		Clients.update({_id: id}, {$set:{parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: previousBalance, balance: balance, active: active}})
+	editClient: function(id, parents, students, emails, home, motherCell, fatherCell, studentCell, address1, address2, previousBalance, balance, active, monthly, monthRate) {
+		Clients.update({_id: id}, {$set:{parents: parents, students: students.split(", "), emails: emails.split(", "), address1: address1, address2: address2, phoneNums: {home: home, motherCell: motherCell, fatherCell: fatherCell, studentCell: studentCell.split(", ")}, previousBalance: previousBalance, balance: balance, active: active, monthly: monthly, monthRate: monthRate}})
 	},
 	deleteClient: function(id) {
 		Clients.remove({_id: id});
@@ -137,7 +137,8 @@ Meteor.methods({
 		console.log("calling generate bill with" + client.parents)
 		var apptList = Appts.find({student:{$in: client.students}, date:{$gt: cycle.start, $lt: cycle.end}}, {sort:{date: 1}}).fetch();
 		var extras = BillExtras.find({clientID: client._id, cycleID: cycle._id}).fetch()
-		var aCancels = getNumACancels();
+		//var aCancels = getNumACancels(client);
+		var aCancels = 0
 		if (Bills.findOne({"client._id": client._id, "cycle._id": cycle._id})) {
 			Bills.update({"client._id": client._id, "cycle._id": cycle._id}, {client: client, cycle: cycle, apptList: apptList, extras: extras, sent: false, aCancels: aCancels});
 			createBillPDF(Bills.findOne({"client._id": client._id, "cycle._id": cycle._id}));

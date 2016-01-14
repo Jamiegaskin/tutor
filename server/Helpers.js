@@ -26,7 +26,7 @@ getSemester = function() {
   }
 };
 
-getNumACancels = function() {
+getNumACancels = function(client) {
   var semester = getSemester()
   return Appts.find({clientID: client._id, date:{$gt: semester.start, $lt: semester.end}, cancel: "A"}).count()
 }

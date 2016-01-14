@@ -36,11 +36,14 @@ SingleBillExtraView = React.createClass({
     if (!extra) {
       return <div/>;
     }
-    var client = Clients.findOne({_id: extra.clientID}).parents;
+    var client = Clients.findOne({_id: extra.clientID});
+    if (!client) {
+      return <div/>
+    }
     var cycle = Cycles.findOne({_id: extra.cycleID}).name;
     if (this.state.editMode) {
       return <li key={extra._id}>
-              Client: <input id="client" list="clientList" defaultValue={client} />
+              Client: <input id="client" list="clientList" defaultValue={client.parents} />
                   <datalist id="clientList">
                     {this.data.clients.map(function(client) {
                       return <option value={client.parents}/>;
@@ -59,7 +62,7 @@ SingleBillExtraView = React.createClass({
               <button className="btn btn-raised btn-default" onClick={this.exitEdit}>Cancel</button> 
             </li>;
     } else {
-      return <li key={extra._id}>Client: {client}, 
+      return <li key={extra._id}>Client: {client.parents}, 
                                 Cycle: {cycle}, 
                                 Occasion: {extra.occasion}, 
                                 Amount: ${extra.amount} 

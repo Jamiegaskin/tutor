@@ -2,7 +2,7 @@ AddApptMaster = React.createClass({
   mixins: [ReactMeteorData],
   getInitialState: function() {
     return {
-      tutor: (Meteor.user().profile.status === "Admin"? "Jenn Gaskin":Meteor.user().username),
+      tutor: (Meteor.user().profile.status === "Admin"? "Layla Louis":Meteor.user().username),
       student: "",
       hours: 1,
       ap: false,

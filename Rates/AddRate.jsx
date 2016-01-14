@@ -9,9 +9,9 @@ AddRate = React.createClass({
     };
   },
   addRate: function() {
-    tutor = document.getElementById("tutorEdit").value;
-    rate = parseInt(document.getElementById("rateEdit").value);
-    parent = document.getElementById("parentEdit").value;
+    var tutor = document.getElementById("tutorEdit").value;
+    var rate = parseInt(document.getElementById("rateEdit").value);
+    var parent = document.getElementById("parentEdit").value;
     Meteor.call("addRate", tutor, parent, rate);
     this.exit();
   },
@@ -40,7 +40,7 @@ AddRate = React.createClass({
             </datalist>
           </input>
         </p>
-        <p>$<input id="rateEdit" type="text" placeholder="Hourly Rate"/></p>
+        <p>$<input id="rateEdit" type="text" placeholder="Hourly or Monthly Rate"/></p>
         <p><button className="btn btn-raised btn-default" onClick={this.exit}>cancel</button>
           <button className="btn btn-raised btn-primary" onClick={this.addRate}>Submit</button></p>
 
